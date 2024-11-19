@@ -106,7 +106,7 @@
           "Microsoft.AspNetCore.App"
         ]
       },
-      "PersonalFinanceUI/1.0.0": {
+      "PersonalFinance/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v7.0",
         "dependencies": {
@@ -114,10 +114,10 @@
           "Swashbuckle.AspNetCore": "6.4.0"
         },
         "compile": {
-          "bin/placeholder/PersonalFinanceUI.dll": {}
+          "bin/placeholder/PersonalFinance.dll": {}
         },
         "runtime": {
-          "bin/placeholder/PersonalFinanceUI.dll": {}
+          "bin/placeholder/PersonalFinance.dll": {}
         },
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
@@ -467,15 +467,15 @@
         "swashbuckle.aspnetcore.swaggerui.nuspec"
       ]
     },
-    "PersonalFinanceUI/1.0.0": {
+    "PersonalFinance/1.0.0": {
       "type": "project",
-      "path": "../PersonalFinanceUI/PersonalFinanceUI.csproj",
-      "msbuildProject": "../PersonalFinanceUI/PersonalFinanceUI.csproj"
+      "path": "../PersonalFinanceUI/PersonalFinance.csproj",
+      "msbuildProject": "../PersonalFinanceUI/PersonalFinance.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net7.0": [
-      "PersonalFinanceUI >= 1.0.0"
+      "PersonalFinance >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -510,8 +510,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "D:\\Net\\PetProjects\\Personal_Finance_Tracker\\PersonalFinanceAPI\\PersonalFinanceUI\\PersonalFinanceUI.csproj": {
-              "projectPath": "D:\\Net\\PetProjects\\Personal_Finance_Tracker\\PersonalFinanceAPI\\PersonalFinanceUI\\PersonalFinanceUI.csproj"
+            "D:\\Net\\PetProjects\\Personal_Finance_Tracker\\PersonalFinanceAPI\\PersonalFinanceUI\\PersonalFinance.csproj": {
+              "projectPath": "D:\\Net\\PetProjects\\Personal_Finance_Tracker\\PersonalFinanceAPI\\PersonalFinanceUI\\PersonalFinance.csproj"
             }
           }
         }

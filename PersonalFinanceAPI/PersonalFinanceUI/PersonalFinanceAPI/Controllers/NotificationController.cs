@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace PersonalFinanceUI.Controllers
+namespace PersonalFinance.UI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ReportController : ControllerBase
+    public class NotificationController : ControllerBase
     {
     }
 }

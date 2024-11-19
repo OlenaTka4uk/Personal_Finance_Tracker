@@ -466,9 +466,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Net\\PetProjects\\Personal_Finance_Tracker\\PersonalFinanceAPI\\PersonalFinanceUI\\PersonalFinanceUI.csproj",
-      "projectName": "PersonalFinanceUI",
-      "projectPath": "D:\\Net\\PetProjects\\Personal_Finance_Tracker\\PersonalFinanceAPI\\PersonalFinanceUI\\PersonalFinanceUI.csproj",
+      "projectUniqueName": "D:\\Net\\PetProjects\\Personal_Finance_Tracker\\PersonalFinanceAPI\\PersonalFinanceUI\\PersonalFinance.csproj",
+      "projectName": "PersonalFinance",
+      "projectPath": "D:\\Net\\PetProjects\\Personal_Finance_Tracker\\PersonalFinanceAPI\\PersonalFinanceUI\\PersonalFinance.csproj",
       "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
       "outputPath": "D:\\Net\\PetProjects\\Personal_Finance_Tracker\\PersonalFinanceAPI\\PersonalFinanceUI\\obj\\",
       "projectStyle": "PackageReference",

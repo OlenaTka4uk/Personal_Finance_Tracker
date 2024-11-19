@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/0Uqi5EjCoSOd/hKcP4lDM/2OplBthqE5wYVWz+CTfaWmY6A0SbcfMZ08W8iiYF/tQ7DUYA9rJ6/n2FQI/EoVQ==",
+  "dgSpecHash": "RfprZZN7LP3S96UaoU+YnYPAyHvuZQ9Um0Tqi8Zu7PwjNyChRftdRQAHgeOpOnBIIJKSfSs0jojEqbXdl4+KYQ==",
   "success": true,
-  "projectFilePath": "D:\\Net\\PetProjects\\Personal_Finance_Tracker\\PersonalFinanceAPI\\PersonalFinanceUI\\PersonalFinanceUI.csproj",
+  "projectFilePath": "D:\\Net\\PetProjects\\Personal_Finance_Tracker\\PersonalFinanceAPI\\PersonalFinanceUI\\PersonalFinance.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\User\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.1\\microsoft.aspnetcore.openapi.7.0.1.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
