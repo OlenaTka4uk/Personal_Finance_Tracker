@@ -3511,6 +3511,8 @@
       "Microsoft.AspNetCore.OpenApi >= 7.0.1",
       "Microsoft.EntityFrameworkCore.Design >= 7.0.20",
       "NLog >= 5.3.4",
+      "PersonalFinance.Domain >= 1.0.0",
+      "PersonalFinance.Persistense >= 1.0.0",
       "PersonalFinance.Service >= 1.0.0",
       "Swashbuckle.AspNetCore >= 6.4.0"
     ]
@@ -3547,6 +3549,12 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
+            "D:\\Net\\PetProjects\\Personal_Finance_Tracker\\PersonalFinanceAPI\\Entities\\PersonalFinance.Domain.csproj": {
+              "projectPath": "D:\\Net\\PetProjects\\Personal_Finance_Tracker\\PersonalFinanceAPI\\Entities\\PersonalFinance.Domain.csproj"
+            },
+            "D:\\Net\\PetProjects\\Personal_Finance_Tracker\\PersonalFinanceAPI\\PersonalFinance.Persistense\\PersonalFinance.Persistense.csproj": {
+              "projectPath": "D:\\Net\\PetProjects\\Personal_Finance_Tracker\\PersonalFinanceAPI\\PersonalFinance.Persistense\\PersonalFinance.Persistense.csproj"
+            },
             "D:\\Net\\PetProjects\\Personal_Finance_Tracker\\PersonalFinanceAPI\\Service\\PersonalFinance.Service.csproj": {
               "projectPath": "D:\\Net\\PetProjects\\Personal_Finance_Tracker\\PersonalFinanceAPI\\Service\\PersonalFinance.Service.csproj"
             }

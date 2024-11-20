@@ -21,6 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Entities\PersonalFinance.Domain.csproj" />
+    <ProjectReference Include="..\PersonalFinance.Persistense\PersonalFinance.Persistense.csproj" />
     <ProjectReference Include="..\Service\PersonalFinance.Service.csproj" />
   </ItemGroup>
 
