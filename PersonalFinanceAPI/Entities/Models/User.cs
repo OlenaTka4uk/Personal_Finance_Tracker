@@ -16,7 +16,7 @@ namespace Entities.Models
         public string Email { get; set; } = string.Empty;
         public string PasswordHash { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public Role Role { get; set; } = Role.Guest;
+        public Role Role { get; set; } = Role.User;
 
         // Navigation properties
         public ICollection<Account> Accounts { get; set; } = new List<Account>();

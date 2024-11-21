@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PersonalFinance.Domain.Enum
+namespace PersonalFinance.Persistense.Repositories
 {
-    public enum Role
+    public class AccountRepository
     {
-        Admin,
-        User
     }
 }

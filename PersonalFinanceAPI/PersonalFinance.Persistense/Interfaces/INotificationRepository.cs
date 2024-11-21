@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PersonalFinance.Domain.Enum
+namespace PersonalFinance.Persistense.Interfaces
 {
-    public enum Role
+    public interface INotificationRepository
     {
-        Admin,
-        User
     }
 }
