@@ -1,4 +1,6 @@
-﻿using PersonalFinance.Service.Interfaces.Logger;
+﻿using PersonalFinance.Persistense.Interfaces;
+using PersonalFinance.Persistense.Repositories;
+using PersonalFinance.Service.Interfaces.Logger;
 using PersonalFinance.Service.Services.Logger;
 
 namespace PersonalFinance.Extensions
@@ -17,6 +19,8 @@ namespace PersonalFinance.Extensions
         public static void ConfigureLoggerService(this IServiceCollection services) =>
             services.AddScoped<ILoggerManager, LoggerManager>();
 
+        public static void ConfigureRepositoryManager(this IServiceCollection services) =>
+            services.AddScoped<IRepositoryManager, RepositoryManager>();
 
     }
 }

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Entities.Models;
+using PersonalFinance.Persistense.Data;
+using PersonalFinance.Persistense.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +9,9 @@ using System.Threading.Tasks;
 
 namespace PersonalFinance.Persistense.Repositories
 {
-    public class UserRepository
+    public class UserRepository : RepositoryBase<User>, IUserRepository
     {
+        public UserRepository(RepositoryContext repositoryContext) : base(repositoryContext) { }
+       
     }
 }
