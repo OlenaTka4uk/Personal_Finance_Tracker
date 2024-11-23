@@ -14,5 +14,9 @@ namespace PersonalFinance.Persistense.Repositories
         public NotificationRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         {
         }
+
+        public IEnumerable<Notification> GetAllNotificationsByUserId(Guid userId) => FindByCondition(x => x.UserId == userId, false)
+            .ToList();
+
     }
 }

@@ -14,5 +14,9 @@ namespace PersonalFinance.Persistense.Repositories
         public GoalRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         {
         }
+
+        public IEnumerable<Goal> GetAllGoalsByUserId(Guid userId) => FindByCondition(x => x.UserId == userId, false)
+            .ToList();
+
     }
 }

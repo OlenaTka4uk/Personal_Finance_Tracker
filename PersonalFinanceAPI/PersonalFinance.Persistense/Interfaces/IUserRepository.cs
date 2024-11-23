@@ -10,7 +10,7 @@ namespace PersonalFinance.Persistense.Interfaces
 {
     public interface IUserRepository
     {
-        IEnumerable<User> GetAllUsers(bool trackChanges);
+        IEnumerable<User> GetAllUsers(bool trackChanges);  
 
     }
 }

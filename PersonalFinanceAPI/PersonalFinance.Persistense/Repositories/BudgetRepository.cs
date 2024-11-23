@@ -14,5 +14,9 @@ namespace PersonalFinance.Persistense.Repositories
         public BudgetRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         {
         }
+
+        public IEnumerable<Budget> GetAllBudgetsByUserId(Guid userId) => FindByCondition(x => x.UserId == userId, false)
+            .ToList();
+
     }
 }

@@ -14,5 +14,9 @@ namespace PersonalFinance.Persistense.Repositories
         public ReportRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         {
         }
+
+        public IEnumerable<Report> GetAllReportsByUserId(Guid userId) => FindByCondition(x => x.UserId == userId, false)
+            .ToList();
+
     }
 }
