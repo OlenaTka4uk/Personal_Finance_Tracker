@@ -2,12 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using PersonalFinance.Persistense.Data;
 using PersonalFinance.Persistense.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace PersonalFinance.Persistense.Repositories
 {
@@ -23,7 +17,7 @@ namespace PersonalFinance.Persistense.Repositories
             .Include(x => x.Goals)
             .Include(x => x.Notifications)
             .Include(x => x.Reports)
-            .OrderBy(c => c.Username)
+            .OrderBy(c => c.UserLastName)
             .ToList();
 
 

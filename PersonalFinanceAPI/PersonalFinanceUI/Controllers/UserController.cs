@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PersonalFinance.Domain.DTO;
 using PersonalFinance.Persistense.Interfaces;
 using PersonalFinance.Persistense.Repositories;
 using PersonalFinance.Service.Interfaces.Logger;
@@ -24,8 +25,19 @@ namespace PersonalFinance.UI.Controllers
         {
             try
             {
-                var companies = _repository.User.GetAllUsers(trackChanges: false);
-                return Ok(companies);
+               
+                var users = _repository.User.GetAllUsers(trackChanges: false);
+                var usersDTO = users.Select(c => new UserDTO
+                {
+                    UserId = c.UserId,
+                    UserName = string.Join(' ', c.UserFirstName, c.UserLastName),                    
+                    Email = c.Email,
+                    PasswordHash = c.PasswordHash,
+                    CreatedAt = c.CreatedAt,
+                    Role = c.Role
+                }).ToList();
+
+                return Ok(usersDTO);
             }
             catch (Exception ex)
             {

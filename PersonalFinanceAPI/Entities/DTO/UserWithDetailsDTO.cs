@@ -1,19 +1,18 @@
-﻿using PersonalFinance.Domain.Enum;
+﻿using Entities.Models;
+using PersonalFinance.Domain.Enum;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities.Models
+namespace PersonalFinance.Domain.DTO
 {
-    public class User
+    public class UserWithDetailsDTO
     {
         public Guid UserId { get; set; }
         public string UserFirstName { get; set; } = string.Empty;
-        public string UserLastName { get; set; } = string.Empty;
+        public string UserLastName { get; set; }
         public string Email { get; set; } = string.Empty;
         public string PasswordHash { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

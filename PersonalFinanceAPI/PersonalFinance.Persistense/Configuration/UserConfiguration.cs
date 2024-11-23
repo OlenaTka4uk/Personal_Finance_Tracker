@@ -11,7 +11,11 @@ namespace PersonalFinance.Persistense.Configuration
         {
             builder.HasKey(u => u.UserId);
 
-            builder.Property(u => u.Username)
+            builder.Property(u => u.UserFirstName)
+                .IsRequired()
+                .HasMaxLength(50);
+
+            builder.Property(u => u.UserLastName)
                 .IsRequired()
                 .HasMaxLength(50);
 
@@ -50,7 +54,8 @@ namespace PersonalFinance.Persistense.Configuration
             new User 
             { 
                 UserId = Guid.Parse("11111111-1111-1111-1111-111111111111"), 
-                Username = "John Doe", 
+                UserFirstName = "John", 
+                UserLastName = "Doe",
                 Email = "john.doe@example.com", 
                 PasswordHash = "hashedpassword1", 
                 Role = Role.User 
@@ -58,7 +63,8 @@ namespace PersonalFinance.Persistense.Configuration
             new User 
             { 
                 UserId = Guid.Parse("11111111-1111-1111-1111-111111111112"), 
-                Username = "Jane Doe", 
+                UserFirstName = "Jane",
+                UserLastName =  "Doe",
                 Email = "jane.doe@example.com", 
                 PasswordHash = "hashedpassword2", 
                 Role = Role.Admin 
