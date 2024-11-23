@@ -9,7 +9,6 @@ namespace PersonalFinance.Persistense.Interfaces
     public interface IRepositoryManager
     {
         IUserRepository User { get;}
-        IAccountRepository Account { get; }
         IBudgetRepository Budget { get; }
         IGoalRepository Goal { get; }
         ITransactionRepository Transaction { get; }

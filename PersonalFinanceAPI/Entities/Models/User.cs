@@ -19,7 +19,6 @@ namespace Entities.Models
         public Role Role { get; set; } = Role.User;
 
         // Navigation properties
-        public ICollection<Account> Accounts { get; set; } = new List<Account>();
         public ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
         public ICollection<Budget> Budgets { get; set; } = new List<Budget>();
         public ICollection<Goal> Goals { get; set; } = new List<Goal>();

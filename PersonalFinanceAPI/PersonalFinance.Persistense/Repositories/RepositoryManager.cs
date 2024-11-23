@@ -12,7 +12,6 @@ namespace PersonalFinance.Persistense.Repositories
     {
         private RepositoryContext _repositoryContext;
         private IUserRepository _userRepository;
-        private IAccountRepository _accountRepository;
         private ITransactionRepository _transactionRepository;
         private IBudgetRepository _budgetRepository;
         private IGoalRepository _goalRepository;
@@ -35,17 +34,7 @@ namespace PersonalFinance.Persistense.Repositories
             }
         }
 
-        public IAccountRepository Account
-        { 
-            get 
-            { 
-                if (_accountRepository == null)
-                {
-                    _accountRepository= new AccountRepository(_repositoryContext);
-                }
-                return _accountRepository;
-            } 
-        }
+        
 
         public IBudgetRepository Budget
         {

@@ -12,8 +12,8 @@ using PersonalFinance.Persistense.Data;
 namespace PersonalFinance.Persistense.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20241120181242_AddPersonalFinanceTables")]
-    partial class AddPersonalFinanceTables
+    [Migration("20241123153651_InitialData")]
+    partial class InitialData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,64 +24,6 @@ namespace PersonalFinance.Persistense.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Entities.Models.Account", b =>
-                {
-                    b.Property<Guid>("AccountId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("AccountName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("AccountType")
-                        .HasMaxLength(50)
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Currency")
-                        .HasMaxLength(3)
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("CurrentBalance")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("AccountId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Accounts");
-
-                    b.HasData(
-                        new
-                        {
-                            AccountId = new Guid("11111111-1111-1111-1111-111111111113"),
-                            AccountName = "Savings Account",
-                            AccountType = 0,
-                            CreatedAt = new DateTime(2024, 11, 20, 18, 12, 41, 989, DateTimeKind.Utc).AddTicks(5970),
-                            Currency = 0,
-                            CurrentBalance = 1000.00m,
-                            UserId = new Guid("11111111-1111-1111-1111-111111111111")
-                        },
-                        new
-                        {
-                            AccountId = new Guid("11111111-1111-1111-1111-111111111114"),
-                            AccountName = "Checking Account",
-                            AccountType = 0,
-                            CreatedAt = new DateTime(2024, 11, 20, 18, 12, 41, 989, DateTimeKind.Utc).AddTicks(5977),
-                            Currency = 0,
-                            CurrentBalance = 500.00m,
-                            UserId = new Guid("11111111-1111-1111-1111-111111111112")
-                        });
-                });
 
             modelBuilder.Entity("Entities.Models.Budget", b =>
                 {
@@ -119,7 +61,7 @@ namespace PersonalFinance.Persistense.Migrations
                     b.HasData(
                         new
                         {
-                            BudgetId = new Guid("fe344839-3209-429f-964e-67aa94cdb31b"),
+                            BudgetId = new Guid("d797af25-538c-47eb-8c98-73dbfbb0792e"),
                             Amount = 500.00m,
                             Category = 0,
                             EndDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -129,7 +71,7 @@ namespace PersonalFinance.Persistense.Migrations
                         },
                         new
                         {
-                            BudgetId = new Guid("9cabc40c-af4f-4175-82ba-bc214fae3131"),
+                            BudgetId = new Guid("d63cc618-9bcf-4447-94de-2b8030c824d4"),
                             Amount = 300.00m,
                             Category = 0,
                             EndDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -231,18 +173,18 @@ namespace PersonalFinance.Persistense.Migrations
                     b.HasData(
                         new
                         {
-                            NotificationId = new Guid("a924d32f-d606-4ad1-b329-0c8889d85b38"),
+                            NotificationId = new Guid("ca3c707f-41a2-436c-b9ab-60d85b9f1795"),
                             IsRead = false,
                             Message = "Your budget for groceries is 80% spent.",
-                            SentAt = new DateTime(2024, 11, 20, 18, 12, 41, 989, DateTimeKind.Utc).AddTicks(9474),
+                            SentAt = new DateTime(2024, 11, 23, 15, 36, 51, 344, DateTimeKind.Utc).AddTicks(7144),
                             UserId = new Guid("11111111-1111-1111-1111-111111111111")
                         },
                         new
                         {
-                            NotificationId = new Guid("d191ba08-cefc-4ff1-b14b-3d683be987cc"),
+                            NotificationId = new Guid("7e3ac319-e7b6-4652-be9d-1ee25b90cfb1"),
                             IsRead = false,
                             Message = "You reached 50% of your vacation goal!",
-                            SentAt = new DateTime(2024, 11, 20, 18, 12, 41, 989, DateTimeKind.Utc).AddTicks(9482),
+                            SentAt = new DateTime(2024, 11, 23, 15, 36, 51, 344, DateTimeKind.Utc).AddTicks(7169),
                             UserId = new Guid("11111111-1111-1111-1111-111111111112")
                         });
                 });
@@ -281,8 +223,8 @@ namespace PersonalFinance.Persistense.Migrations
                     b.HasData(
                         new
                         {
-                            ReportId = new Guid("241b9a0d-bee9-4a27-8aad-1b5dbbcbebe7"),
-                            CreatedAt = new DateTime(2024, 11, 20, 18, 12, 41, 990, DateTimeKind.Utc).AddTicks(708),
+                            ReportId = new Guid("09aaf444-f462-4277-a806-eefbabfcd3ff"),
+                            CreatedAt = new DateTime(2024, 11, 23, 15, 36, 51, 344, DateTimeKind.Utc).AddTicks(9591),
                             FilePath = "/reports/monthly-expenses.pdf",
                             ReportTitle = "Monthly Expenses",
                             ReportType = 0,
@@ -290,8 +232,8 @@ namespace PersonalFinance.Persistense.Migrations
                         },
                         new
                         {
-                            ReportId = new Guid("30c5d457-bd1e-4340-b74e-c39da2f57695"),
-                            CreatedAt = new DateTime(2024, 11, 20, 18, 12, 41, 990, DateTimeKind.Utc).AddTicks(720),
+                            ReportId = new Guid("244ba746-f0f0-42fc-a727-b5aaec08d6e7"),
+                            CreatedAt = new DateTime(2024, 11, 23, 15, 36, 51, 344, DateTimeKind.Utc).AddTicks(9621),
                             FilePath = "/reports/annual-income.xlsx",
                             ReportTitle = "Annual Income",
                             ReportType = 1,
@@ -303,9 +245,6 @@ namespace PersonalFinance.Persistense.Migrations
                 {
                     b.Property<Guid>("TransactionId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("AccountId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Amount")
@@ -333,8 +272,6 @@ namespace PersonalFinance.Persistense.Migrations
 
                     b.HasKey("TransactionId");
 
-                    b.HasIndex("AccountId");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("Transactions");
@@ -342,23 +279,21 @@ namespace PersonalFinance.Persistense.Migrations
                     b.HasData(
                         new
                         {
-                            TransactionId = new Guid("2349633e-5ba8-4f93-9b1f-0449cf059a26"),
-                            AccountId = new Guid("11111111-1111-1111-1111-111111111113"),
+                            TransactionId = new Guid("d6a812c3-5379-420c-94b7-f9669a5ec3a4"),
                             Amount = 50.00m,
                             Category = 2,
                             Description = "Weekly groceries",
-                            TransactionDate = new DateTime(2024, 11, 20, 18, 12, 41, 989, DateTimeKind.Utc).AddTicks(7162),
+                            TransactionDate = new DateTime(2024, 11, 23, 15, 36, 51, 344, DateTimeKind.Utc).AddTicks(4196),
                             TransactionType = 1,
                             UserId = new Guid("11111111-1111-1111-1111-111111111111")
                         },
                         new
                         {
-                            TransactionId = new Guid("68eb757e-ee87-4eae-9952-6cb87c63eadc"),
-                            AccountId = new Guid("11111111-1111-1111-1111-111111111114"),
+                            TransactionId = new Guid("466f2215-48a0-4808-9850-1d1867a111d8"),
                             Amount = 2000.00m,
                             Category = 0,
                             Description = "Monthly salary",
-                            TransactionDate = new DateTime(2024, 11, 20, 18, 12, 41, 989, DateTimeKind.Utc).AddTicks(7193),
+                            TransactionDate = new DateTime(2024, 11, 23, 15, 36, 51, 344, DateTimeKind.Utc).AddTicks(4229),
                             TransactionType = 0,
                             UserId = new Guid("11111111-1111-1111-1111-111111111112")
                         });
@@ -398,7 +333,7 @@ namespace PersonalFinance.Persistense.Migrations
                         new
                         {
                             UserId = new Guid("11111111-1111-1111-1111-111111111111"),
-                            CreatedAt = new DateTime(2024, 11, 20, 18, 12, 41, 989, DateTimeKind.Utc).AddTicks(3716),
+                            CreatedAt = new DateTime(2024, 11, 23, 15, 36, 51, 344, DateTimeKind.Utc).AddTicks(2529),
                             Email = "john.doe@example.com",
                             PasswordHash = "hashedpassword1",
                             Role = 1,
@@ -407,23 +342,12 @@ namespace PersonalFinance.Persistense.Migrations
                         new
                         {
                             UserId = new Guid("11111111-1111-1111-1111-111111111112"),
-                            CreatedAt = new DateTime(2024, 11, 20, 18, 12, 41, 989, DateTimeKind.Utc).AddTicks(3746),
+                            CreatedAt = new DateTime(2024, 11, 23, 15, 36, 51, 344, DateTimeKind.Utc).AddTicks(2556),
                             Email = "jane.doe@example.com",
                             PasswordHash = "hashedpassword2",
                             Role = 0,
                             Username = "Jane Doe"
                         });
-                });
-
-            modelBuilder.Entity("Entities.Models.Account", b =>
-                {
-                    b.HasOne("Entities.Models.User", "User")
-                        .WithMany("Accounts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Entities.Models.Budget", b =>
@@ -472,32 +396,17 @@ namespace PersonalFinance.Persistense.Migrations
 
             modelBuilder.Entity("Entities.Models.Transaction", b =>
                 {
-                    b.HasOne("Entities.Models.Account", "Account")
-                        .WithMany("Transactions")
-                        .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("Entities.Models.User", "User")
                         .WithMany("Transactions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Account");
-
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Entities.Models.Account", b =>
-                {
-                    b.Navigation("Transactions");
                 });
 
             modelBuilder.Entity("Entities.Models.User", b =>
                 {
-                    b.Navigation("Accounts");
-
                     b.Navigation("Budgets");
 
                     b.Navigation("Goals");

@@ -22,31 +22,29 @@ namespace PersonalFinance.Persistense.Configuration
             builder.Property(u => u.PasswordHash)
                 .IsRequired();
 
-            builder.HasMany(u => u.Accounts)
-                .WithOne(a => a.User)
-                .HasForeignKey(a => a.UserId)
-                .OnDelete(DeleteBehavior.NoAction);           
-                
-
             builder.HasMany(u => u.Transactions)
                 .WithOne(t => t.User)
                 .HasForeignKey(t => t.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
+
 
             builder.HasMany(u => u.Budgets)
                 .WithOne(b => b.User)
                 .HasForeignKey(b => b.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
+
 
             builder.HasMany(u => u.Goals)
                 .WithOne(g => g.User)
                 .HasForeignKey(g => g.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
+
 
             builder.HasMany(u => u.Notifications)
                 .WithOne(n => n.User)
                 .HasForeignKey(n => n.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
+
 
             builder.HasData(
             new User 

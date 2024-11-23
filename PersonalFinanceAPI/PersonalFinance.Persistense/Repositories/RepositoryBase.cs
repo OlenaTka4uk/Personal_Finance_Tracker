@@ -15,7 +15,7 @@ namespace PersonalFinance.Persistense.Repositories
             _repositoryContext = repositoryContext;
         }
 
-        public IQueryable<T> FindAll()
+        public IQueryable<T> FindAll(bool trackChanges)
         {
             return _repositoryContext.Set<T>().AsNoTracking();
         }

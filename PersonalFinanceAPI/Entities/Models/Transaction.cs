@@ -11,7 +11,6 @@ namespace Entities.Models
     {
         public Guid TransactionId { get; set; }
         public Guid UserId { get; set; }
-        public Guid AccountId { get; set; }
         public TransactionType TransactionType { get; set; } = TransactionType.Expense;
         public TransactionCategory Category { get; set; } = TransactionCategory.Salary;
         public decimal Amount { get; set; }
@@ -19,7 +18,6 @@ namespace Entities.Models
         public DateTime TransactionDate { get; set; } = DateTime.UtcNow;
 
         // Navigation properties
-        public User User { get; set; }
-        public Account Account { get; set; }
+        public User User { get; set; }      
     }
 }

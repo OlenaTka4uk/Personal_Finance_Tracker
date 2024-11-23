@@ -35,12 +35,7 @@ namespace PersonalFinance.Persistense.Configuration
                 .HasForeignKey(t => t.UserId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            builder.HasOne(t => t.Account)
-                .WithMany(a => a.Transactions)
-                .HasForeignKey(t => t.AccountId)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            builder.HasData(
+           builder.HasData(
             new Transaction 
             { 
                 TransactionId = Guid.NewGuid(), 
@@ -48,7 +43,6 @@ namespace PersonalFinance.Persistense.Configuration
                 Category = TransactionCategory.Groceries, 
                 Amount = 50.00M, 
                 Description = "Weekly groceries", 
-                AccountId = Guid.Parse("11111111-1111-1111-1111-111111111113"), 
                 UserId = Guid.Parse("11111111-1111-1111-1111-111111111111") 
             },
             new Transaction 
@@ -58,7 +52,6 @@ namespace PersonalFinance.Persistense.Configuration
                 Category = TransactionCategory.Salary, 
                 Amount = 2000.00M, 
                 Description = "Monthly salary", 
-                AccountId = Guid.Parse("11111111-1111-1111-1111-111111111114"), 
                 UserId = Guid.Parse("11111111-1111-1111-1111-111111111112") 
             }
         );
