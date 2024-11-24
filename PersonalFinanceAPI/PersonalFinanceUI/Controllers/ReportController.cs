@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PersonalFinance.Domain.DTO;
 using PersonalFinance.Persistense.Interfaces;
@@ -12,10 +13,12 @@ namespace PersonalFinance.UI.Controllers
     {
         private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _logger;
-        public ReportController(IRepositoryManager repository, ILoggerManager logger)
+        private readonly IMapper _mapper;
+        public ReportController(IRepositoryManager repository, ILoggerManager logger, IMapper mapper)
         {
             _repository = repository;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpGet("id: int")]
@@ -25,16 +28,7 @@ namespace PersonalFinance.UI.Controllers
             {
 
                 var reports = _repository.Report.GetAllReportsByUserId(id);
-                var reportsDTO = reports.Select(c => new ReportDTO
-                {
-                    ReportId= c.ReportId,
-                    UserId = c.UserId,
-                    ReportTitle=c.ReportTitle,
-                    ReportType=c.ReportType,
-                    FilePath=c.FilePath,
-                    CreatedAt=c.CreatedAt
-                }).ToList();
-
+                var reportsDTO = _mapper.Map<IEnumerable<ReportDTO>>(reports);
                 return Ok(reportsDTO);
             }
             catch (Exception ex)

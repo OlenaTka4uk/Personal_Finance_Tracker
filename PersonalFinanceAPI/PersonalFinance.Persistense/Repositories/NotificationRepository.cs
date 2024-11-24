@@ -15,6 +15,10 @@ namespace PersonalFinance.Persistense.Repositories
         {
         }
 
+        public IEnumerable<Notification> GetAllNotificationsByReading(bool isRead) => FindByCondition(x => x.IsRead == isRead, false)
+            .ToList();
+      
+
         public IEnumerable<Notification> GetAllNotificationsByUserId(Guid userId) => FindByCondition(x => x.UserId == userId, false)
             .ToList();
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PersonalFinance.Domain.DTO;
 using PersonalFinance.Persistense.Interfaces;
@@ -12,10 +13,12 @@ namespace PersonalFinance.UI.Controllers
     {
         private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _logger;
-        public NotificationController(IRepositoryManager repository, ILoggerManager logger)
+        private readonly IMapper _mapper;
+        public NotificationController(IRepositoryManager repository, ILoggerManager logger, IMapper mapper)
         {
             _repository = repository;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpGet("id: int")]
@@ -25,20 +28,29 @@ namespace PersonalFinance.UI.Controllers
             {
 
                 var notifications = _repository.Notification.GetAllNotificationsByUserId(id);
-                var notificationsDTO = notifications.Select(c => new NotificationDTO
-                {
-                    NotificationId = c.NotificationId,
-                    UserId = c.UserId,
-                    Message= c.Message,
-                    IsRead=c.IsRead,
-                    SentAt=c.SentAt
-                }).ToList();
-
+                var notificationsDTO = _mapper.Map<IEnumerable<NotificationDTO>>(notifications);
                 return Ok(notificationsDTO);
             }
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong in the {nameof(GetAllNotificationsByUserId)} action {ex}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+        [HttpGet("isRead: bool")]
+        public IActionResult GetAllNotificationsByReading(bool isRead)
+        {
+            try
+            {
+
+                var notifications = _repository.Notification.GetAllNotificationsByReading(isRead);
+                var notificationsDTO = _mapper.Map<IEnumerable<NotificationDTO>>(notifications);
+
+                return Ok(notificationsDTO);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong in the {nameof(GetAllNotificationsByReading)} action {ex}");
                 return StatusCode(500, "Internal server error");
             }
         }

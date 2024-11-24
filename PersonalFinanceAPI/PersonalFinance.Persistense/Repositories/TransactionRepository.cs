@@ -5,6 +5,7 @@ using PersonalFinance.Persistense.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,6 +19,12 @@ namespace PersonalFinance.Persistense.Repositories
 
         public IEnumerable<Transaction> GetAllTransaction(Guid id) => FindByCondition(x => x.UserId == id, false)
             .ToList();
+
+        public IEnumerable<Transaction> GetAllTransactionsByDate(DateTime transactionDate) => FindByCondition(x => x.TransactionDate == transactionDate, false)
+            .ToList();       
+
+        public IEnumerable<Transaction> GetAllTransactionsByUserName(string userFirstname, string userLastName) => FindByCondition(x => x.User.UserLastName == userLastName
+             && x.User.UserFirstName == userFirstname, false).ToList();
         
     }
 }

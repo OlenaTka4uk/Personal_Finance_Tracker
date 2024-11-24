@@ -10,5 +10,6 @@ namespace PersonalFinance.Persistense.Interfaces
     public interface INotificationRepository
     {
         IEnumerable<Notification> GetAllNotificationsByUserId(Guid userId);
+        IEnumerable<Notification> GetAllNotificationsByReading(bool isRead);
     }
 }

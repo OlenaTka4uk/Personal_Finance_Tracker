@@ -10,5 +10,7 @@ namespace PersonalFinance.Persistense.Interfaces
     public interface IGoalRepository
     {
         IEnumerable<Goal> GetAllGoalsByUserId(Guid userId);
+        IEnumerable<Goal> GetAllGoalsByDeadline(DateTime deadline);
+        IEnumerable<Goal> GetAllGoalsByAchievement(bool isAchieved);
     }
 }

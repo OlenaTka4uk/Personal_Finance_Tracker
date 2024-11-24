@@ -10,5 +10,6 @@ namespace PersonalFinance.Persistense.Interfaces
     public interface IBudgetRepository
     {
         IEnumerable<Budget> GetAllBudgetsByUserId(Guid userId);
+        IEnumerable<Budget> GetAllBudgetsByUserName(string userFirstName, string userLastName);
     }
 }

@@ -15,6 +15,14 @@ namespace PersonalFinance.Persistense.Repositories
         {
         }
 
+        public IEnumerable<Goal> GetAllGoalsByAchievement(bool isAchieved) => FindByCondition(x => x.IsAchieved == isAchieved, false)
+            .ToList();
+
+
+        public IEnumerable<Goal> GetAllGoalsByDeadline(DateTime deadline) => FindByCondition(x => x.Deadline == deadline, false)
+            .ToList();
+        
+
         public IEnumerable<Goal> GetAllGoalsByUserId(Guid userId) => FindByCondition(x => x.UserId == userId, false)
             .ToList();
 

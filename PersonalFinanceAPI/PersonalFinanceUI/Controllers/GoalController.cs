@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PersonalFinance.Domain.DTO;
 using PersonalFinance.Persistense.Interfaces;
@@ -12,10 +13,12 @@ namespace PersonalFinance.UI.Controllers
     {
         private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _logger;
-        public GoalController(IRepositoryManager repository, ILoggerManager logger)
+        private readonly IMapper _mapper;
+        public GoalController(IRepositoryManager repository, ILoggerManager logger, IMapper mapper)
         {
             _repository = repository;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpGet("id: int")]
@@ -25,23 +28,46 @@ namespace PersonalFinance.UI.Controllers
             {
 
                 var goals = _repository.Goal.GetAllGoalsByUserId(id);
-                var goalsDTO = goals.Select(c => new GoalDTO
-                {
-                    GoalId = c.GoalId, 
-                    GoalName = c.GoalName,
-                    UserId = c.UserId,
-                    TargetAmount= c.TargetAmount,
-                    CurrentAmount= c.CurrentAmount,
-                    Deadline= c.Deadline,
-                    IsAchieved= c.IsAchieved,
-                    Description= c.Description
-                }).ToList();
-
+                var goalsDTO = _mapper.Map<IEnumerable<GoalDTO>>(goals);
                 return Ok(goalsDTO);
             }
             catch (Exception ex)
             {
                 _logger.LogError($"Something went wrong in the {nameof(GetAllGoalsByUserId)} action {ex}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpGet("isAchieved: bool")]
+        public IActionResult GetAllGoalsByAchievement(bool isAchieved)
+        {
+            try
+            {
+
+                var goals = _repository.Goal.GetAllGoalsByAchievement(isAchieved);
+                var goalsDTO = _mapper.Map<IEnumerable<GoalDTO>>(goals);
+                return Ok(goalsDTO);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong in the {nameof(GetAllGoalsByAchievement)} action {ex}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpGet("deadline: date")]
+        public IActionResult GetAllGoalsByDeadline(DateTime deadline)
+        {
+            try
+            {
+
+                var goals = _repository.Goal.GetAllGoalsByDeadline(deadline);
+                var goalsDTO = _mapper.Map<IEnumerable<GoalDTO>>(goals);
+                return Ok(goalsDTO);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong in the {nameof(GetAllGoalsByDeadline)} action {ex}");
                 return StatusCode(500, "Internal server error");
             }
         }
