@@ -21,21 +21,18 @@ namespace PersonalFinance.UI.Controllers
             _mapper = mapper;
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet("id: int")]
         public IActionResult GetAllReportsByUserId(Guid id)
         {
-            try
+            if (id == Guid.Empty)
             {
-
-                var reports = _repository.Report.GetAllReportsByUserId(id);
-                var reportsDTO = _mapper.Map<IEnumerable<ReportDTO>>(reports);
-                return Ok(reportsDTO);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Something went wrong in the {nameof(GetAllReportsByUserId)} action {ex}");
-                return StatusCode(500, "Internal server error");
-            }
+               return BadRequest(ModelState);
+            }            
+            var reports = _repository.Report.GetAllReportsByUserId(id);
+            var reportsDTO = _mapper.Map<IEnumerable<ReportDTO>>(reports);
+            return Ok(reportsDTO);
         }
     }
 }

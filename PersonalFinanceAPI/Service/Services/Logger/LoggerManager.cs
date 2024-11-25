@@ -12,10 +12,8 @@ namespace PersonalFinance.Service.Services.Logger
     {
         private static ILogger logger = LogManager.GetCurrentClassLogger();
 
-        public LoggerManager()
-        {
-
-        }
+        public LoggerManager() { }
+     
         public void LogDebug(string message)
         {
             logger.Debug("DEBUG--" + message);

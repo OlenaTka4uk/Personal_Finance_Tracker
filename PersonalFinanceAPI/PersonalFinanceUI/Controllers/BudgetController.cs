@@ -22,36 +22,32 @@ namespace PersonalFinance.UI.Controllers
             _mapper = mapper;
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet("id: int")]
         public IActionResult GetAllBudgetByUserId(Guid id)
         {
-            try
+           if (id == Guid.Empty)
             {
-
-                var budget = _repository.Budget.GetAllBudgetsByUserId(id);
-                var budgetDTO = _mapper.Map<IEnumerable<BudgetDTO>>(budget);
-                return Ok(budgetDTO);
+                return BadRequest();
             }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Something went wrong in the {nameof(GetAllBudgetByUserId)} action {ex}");
-                return StatusCode(500, "Internal server error");
-            }
+            var budget = _repository.Budget.GetAllBudgetsByUserId(id);
+            var budgetDTO = _mapper.Map<IEnumerable<BudgetDTO>>(budget);
+            return Ok(budgetDTO);
         }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet("name: string")]
         public IActionResult GetAllBudgetByUserName(string userFirstName, string userLastName)
         {
-            try
+            if (userFirstName == "" || userLastName == "")
             {
-                var budget = _repository.Budget.GetAllBudgetsByUserName(userFirstName, userLastName);
-                var budgetDTO = _mapper.Map<IEnumerable<BudgetDTO>>(budget);
-                return Ok(budgetDTO);
+                return BadRequest();
             }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Something went wrong in the {nameof(GetAllBudgetByUserName)} action {ex}");
-                return StatusCode(500, "Internal server error");
-            }
+            var budget = _repository.Budget.GetAllBudgetsByUserName(userFirstName, userLastName);
+            var budgetDTO = _mapper.Map<IEnumerable<BudgetDTO>>(budget);
+            return Ok(budgetDTO);
         }
     }
 }

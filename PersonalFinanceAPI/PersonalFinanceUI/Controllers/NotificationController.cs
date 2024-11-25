@@ -21,38 +21,27 @@ namespace PersonalFinance.UI.Controllers
             _mapper = mapper;
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet("id: int")]
         public IActionResult GetAllNotificationsByUserId(Guid id)
         {
-            try
+            if (id == Guid.Empty)
             {
-
-                var notifications = _repository.Notification.GetAllNotificationsByUserId(id);
-                var notificationsDTO = _mapper.Map<IEnumerable<NotificationDTO>>(notifications);
-                return Ok(notificationsDTO);
+                return BadRequest(ModelState);
             }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Something went wrong in the {nameof(GetAllNotificationsByUserId)} action {ex}");
-                return StatusCode(500, "Internal server error");
-            }
+            var notifications = _repository.Notification.GetAllNotificationsByUserId(id);
+            var notificationsDTO = _mapper.Map<IEnumerable<NotificationDTO>>(notifications);
+            return Ok(notificationsDTO);
         }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet("isRead: bool")]
         public IActionResult GetAllNotificationsByReading(bool isRead)
         {
-            try
-            {
-
-                var notifications = _repository.Notification.GetAllNotificationsByReading(isRead);
-                var notificationsDTO = _mapper.Map<IEnumerable<NotificationDTO>>(notifications);
-
-                return Ok(notificationsDTO);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Something went wrong in the {nameof(GetAllNotificationsByReading)} action {ex}");
-                return StatusCode(500, "Internal server error");
-            }
+            var notifications = _repository.Notification.GetAllNotificationsByReading(isRead);
+            var notificationsDTO = _mapper.Map<IEnumerable<NotificationDTO>>(notifications);
+            return Ok(notificationsDTO);
         }
     }
 }

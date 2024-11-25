@@ -23,23 +23,15 @@ namespace PersonalFinance.UI.Controllers
             _logger = logger;
             _mapper = mapper;
         }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet]
         public IActionResult GetAllUsers()
-        {
-            try
-            {
-               
-                var users = _repository.User.GetAllUsers(trackChanges: false);
-                var usersDTO = _mapper.Map<IEnumerable<UserDTO>>(users);
-                return Ok(usersDTO);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Something went wrong in the {nameof(GetAllUsers)} action {ex}");
-            return StatusCode(500, "Internal server error");
-            }
+        {            
+            var users = _repository.User.GetAllUsers(trackChanges: false);
+            var usersDTO = _mapper.Map<IEnumerable<UserDTO>>(users);            
+            return Ok(usersDTO);
         }
-
 
     }
 }

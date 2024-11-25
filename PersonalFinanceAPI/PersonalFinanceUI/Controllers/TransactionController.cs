@@ -21,38 +21,33 @@ namespace PersonalFinance.UI.Controllers
             _mapper = mapper;
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]       
         [HttpGet("id: int")]
         public IActionResult GetAllTransactionById(Guid id)
         {
-            try
+            if (id == Guid.Empty)
             {
+                return BadRequest(ModelState);
+            }
 
-                var transactions = _repository.Transaction.GetAllTransaction(id);
-                var transactionsDTO = _mapper.Map<IEnumerable<TransactionDTO>>(transactions);
-                return Ok(transactionsDTO);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Something went wrong in the {nameof(GetAllTransactionById)} action {ex}");
-                return StatusCode(500, "Internal server error");
-            }
+            var transactions = _repository.Transaction.GetAllTransaction(id);            
+            var transactionsDTO = _mapper.Map<IEnumerable<TransactionDTO>>(transactions);
+            return Ok(transactionsDTO);
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet("name: string", Name = "GetTransactionByUserName")]
         public IActionResult GetAllTransactiosByUserName(string userFirstName, string userLastName)
         {
-            try
+            if (userFirstName == "" || userLastName == "")
             {
-
-                var transactions = _repository.Transaction.GetAllTransactionsByUserName(userFirstName, userLastName);
-                var transactionsDTO = _mapper.Map<IEnumerable<TransactionDTO>>(transactions);
-                return Ok(transactionsDTO);
+                return BadRequest();
             }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Something went wrong in the {nameof(GetAllTransactiosByUserName)} action {ex}");
-                return StatusCode(500, "Internal server error");
-            }
+            var transactions = _repository.Transaction.GetAllTransactionsByUserName(userFirstName, userLastName);
+            var transactionsDTO = _mapper.Map<IEnumerable<TransactionDTO>>(transactions);
+            return Ok(transactionsDTO);
         }
     }
 }
