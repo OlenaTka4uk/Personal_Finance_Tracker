@@ -22,15 +22,17 @@ namespace PersonalFinance.UI.Controllers
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("id: int")]
-        public IActionResult GetAllNotificationsByUserId(Guid id)
+        public IActionResult GetAllNotificationsByUserId(Guid userId)
         {
-            if (id == Guid.Empty)
+            var user = _repository.User.GetUser(userId, trackChanges: false);
+            if (user == null)
             {
-                return BadRequest(ModelState);
+                return NotFound();
             }
-            var notifications = _repository.Notification.GetAllNotificationsByUserId(id);
+
+            var notifications = _repository.Notification.GetAllNotificationsByUserId(userId);
             var notificationsDTO = _mapper.Map<IEnumerable<NotificationDTO>>(notifications);
             return Ok(notificationsDTO);
         }

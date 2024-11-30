@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PersonalFinance.Persistense.Data;
 using PersonalFinance.Persistense.Interfaces;
+using System.ComponentModel.Design;
 
 namespace PersonalFinance.Persistense.Repositories
 {
@@ -18,9 +19,16 @@ namespace PersonalFinance.Persistense.Repositories
             .Include(x => x.Notifications)
             .Include(x => x.Reports)
             .OrderBy(c => c.UserLastName)
-            .ToList();
+        .ToList();
+
+        public User GetUser(Guid id, bool trackChanges) => 
+            FindByCondition(c => c.UserId.Equals(id), trackChanges)
+            .SingleOrDefault();
+
+        public User GetUserByFullName(string firstName, string lastName, bool trackChanges) =>
+            FindByCondition(x => x.UserFirstName.Equals(firstName) && x.UserLastName.Equals(lastName), false)   
+            .SingleOrDefault();
 
        
-
     }
 }

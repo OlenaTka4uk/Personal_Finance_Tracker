@@ -22,15 +22,16 @@ namespace PersonalFinance.UI.Controllers
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("id: int")]
-        public IActionResult GetAllReportsByUserId(Guid id)
+        public IActionResult GetAllReportsByUserId(Guid userId)
         {
-            if (id == Guid.Empty)
+            var user = _repository.User.GetUser(userId, trackChanges: false);
+            if (user == null)
             {
-               return BadRequest(ModelState);
+               return NotFound();
             }            
-            var reports = _repository.Report.GetAllReportsByUserId(id);
+            var reports = _repository.Report.GetAllReportsByUserId(userId);
             var reportsDTO = _mapper.Map<IEnumerable<ReportDTO>>(reports);
             return Ok(reportsDTO);
         }

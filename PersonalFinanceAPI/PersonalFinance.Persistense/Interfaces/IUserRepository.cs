@@ -11,6 +11,8 @@ namespace PersonalFinance.Persistense.Interfaces
     public interface IUserRepository
     {
         IEnumerable<User> GetAllUsers(bool trackChanges);  
+        User GetUser(Guid id, bool trackChanges);
+        User GetUserByFullName(string firstName, string lastName, bool trackChanges);
 
     }
 }

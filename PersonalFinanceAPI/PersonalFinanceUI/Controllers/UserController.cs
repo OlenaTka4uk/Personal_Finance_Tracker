@@ -33,5 +33,41 @@ namespace PersonalFinance.UI.Controllers
             return Ok(usersDTO);
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("id: int")]
+        public IActionResult GetUser(Guid id)
+        {
+            var user = _repository.User.GetUser(id, trackChanges: false);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var userDTO = _mapper.Map<UserDTO>(user);
+            return Ok(userDTO);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpGet("name: string")]
+        public IActionResult GetUserByName(string firstName, string lastName)
+        {
+            
+            if (firstName == string.Empty || lastName == string.Empty)
+            {
+                return BadRequest();
+            }
+            
+            var user = _repository.User.GetUserByFullName(firstName, lastName, trackChanges: false);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var userDTO = _mapper.Map<UserDTO>(user);
+            return Ok(userDTO);
+        }
     }
 }

@@ -21,11 +21,17 @@ namespace PersonalFinance.UI.Controllers
             _mapper = mapper;
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("id: int")]
-        public IActionResult GetAllGoalsByUserId(Guid id)
+        public IActionResult GetAllGoalsByUserId(Guid userId)
         {
-            _logger.LogInfo("This is a test log.");
-            var goals = _repository.Goal.GetAllGoalsByUserId(id);
+           var user = _repository.User.GetUser(userId, trackChanges: false);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            var goals = _repository.Goal.GetAllGoalsByUserId(userId);
             var goalsDTO = _mapper.Map<IEnumerable<GoalDTO>>(goals);
             return Ok(goalsDTO);
         }

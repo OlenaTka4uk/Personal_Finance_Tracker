@@ -9,8 +9,7 @@ namespace PersonalFinance.UI.Profiles
         public UserProfile()
         {
             CreateMap<User, UserDTO>()
-                .ForMember(x => x.UserName,
-                opt => opt.MapFrom(x => string.Join(' ', x.UserLastName, x.UserFirstName)));
+                .ReverseMap();
 
             CreateMap<User, UserWithDetailsDTO>()
                 .ReverseMap();

@@ -12,5 +12,6 @@ namespace PersonalFinance.Persistense.Interfaces
         IEnumerable<Transaction> GetAllTransaction(Guid id);
         IEnumerable<Transaction> GetAllTransactionsByUserName(string userFirstname, string userLastName);
         IEnumerable<Transaction> GetAllTransactionsByDate(DateTime transactionDate);
+        IEnumerable<Transaction> GetAllTransactionsByUserAndDate(Guid userId, DateTime transactionDate, bool trackChanges);
     }
 }

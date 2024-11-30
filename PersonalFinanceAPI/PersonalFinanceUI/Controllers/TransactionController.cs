@@ -22,22 +22,24 @@ namespace PersonalFinance.UI.Controllers
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]       
+        [ProducesResponseType(StatusCodes.Status404NotFound)]       
         [HttpGet("id: int")]
-        public IActionResult GetAllTransactionById(Guid id)
+        public IActionResult GetAllTransactionById(Guid userId)
         {
-            if (id == Guid.Empty)
+            var user = _repository.User.GetUser(userId, trackChanges: false);
+            if (user == null)
             {
-                return BadRequest(ModelState);
+                return NotFound();
             }
 
-            var transactions = _repository.Transaction.GetAllTransaction(id);            
+            var transactions = _repository.Transaction.GetAllTransaction(userId);            
             var transactionsDTO = _mapper.Map<IEnumerable<TransactionDTO>>(transactions);
             return Ok(transactionsDTO);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("name: string", Name = "GetTransactionByUserName")]
         public IActionResult GetAllTransactiosByUserName(string userFirstName, string userLastName)
         {
@@ -45,7 +47,28 @@ namespace PersonalFinance.UI.Controllers
             {
                 return BadRequest();
             }
+            var user = _repository.User.GetUserByFullName(userFirstName, userLastName, trackChanges: false);
+            if (user == null)
+            {
+                return NotFound();
+            }
             var transactions = _repository.Transaction.GetAllTransactionsByUserName(userFirstName, userLastName);
+            var transactionsDTO = _mapper.Map<IEnumerable<TransactionDTO>>(transactions);
+            return Ok(transactionsDTO);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("date: date", Name ="GetAllTransaction")]
+        public IActionResult GetAllTransactionByUserAndDate(Guid userId, DateTime transactionDate)
+        {
+            var user = _repository.User.GetUser(userId,trackChanges: false);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var transactions = _repository.Transaction.GetAllTransactionsByUserAndDate(userId, transactionDate, trackChanges: false);
             var transactionsDTO = _mapper.Map<IEnumerable<TransactionDTO>>(transactions);
             return Ok(transactionsDTO);
         }

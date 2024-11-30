@@ -23,27 +23,34 @@ namespace PersonalFinance.UI.Controllers
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("id: int")]
-        public IActionResult GetAllBudgetByUserId(Guid id)
+        public IActionResult GetAllBudgetByUserId(Guid userId)
         {
-           if (id == Guid.Empty)
+            var user = _repository.User.GetUser(userId, trackChanges: false);
+           if (user == null)
             {
-                return BadRequest();
+                return NotFound();
             }
-            var budget = _repository.Budget.GetAllBudgetsByUserId(id);
+            var budget = _repository.Budget.GetAllBudgetsByUserId(userId);
             var budgetDTO = _mapper.Map<IEnumerable<BudgetDTO>>(budget);
             return Ok(budgetDTO);
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("name: string")]
         public IActionResult GetAllBudgetByUserName(string userFirstName, string userLastName)
         {
             if (userFirstName == "" || userLastName == "")
             {
                 return BadRequest();
+            }
+            var user = _repository.User.GetUserByFullName(userFirstName, userLastName, trackChanges: false);
+            if (user == null)
+            {
+                return NotFound();
             }
             var budget = _repository.Budget.GetAllBudgetsByUserName(userFirstName, userLastName);
             var budgetDTO = _mapper.Map<IEnumerable<BudgetDTO>>(budget);
