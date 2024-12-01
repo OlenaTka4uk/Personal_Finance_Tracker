@@ -11,9 +11,9 @@ namespace PersonalFinance.Persistense.Repositories
 {
     public class ReportRepository : RepositoryBase<Report>, IReportRepository
     {
-        public ReportRepository(RepositoryContext repositoryContext) : base(repositoryContext)
-        {
-        }
+        public ReportRepository(RepositoryContext repositoryContext) : base(repositoryContext) { }
+
+        public void CreateReport(Report report) => Create(report);       
 
         public IEnumerable<Report> GetAllReportsByUserId(Guid userId) => FindByCondition(x => x.UserId == userId, false)
             .ToList();

@@ -8,9 +8,7 @@ namespace PersonalFinance.Persistense.Repositories
 {
     public class UserRepository : RepositoryBase<User>, IUserRepository
     {
-        public UserRepository(RepositoryContext repositoryContext) : base(repositoryContext)
-        {
-        }
+        public UserRepository(RepositoryContext repositoryContext) : base(repositoryContext)  {}
 
         public IEnumerable<User> GetAllUsers(bool trackChanges) => FindAll(trackChanges)
             .Include(x => x.Budgets)
@@ -29,6 +27,7 @@ namespace PersonalFinance.Persistense.Repositories
             FindByCondition(x => x.UserFirstName.Equals(firstName) && x.UserLastName.Equals(lastName), false)   
             .SingleOrDefault();
 
-       
+        public void CreateUser(User user) => Create(user);
+
     }
 }

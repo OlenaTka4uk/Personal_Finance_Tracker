@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Entities.Models;
-using PersonalFinance.Domain.DTO;
+using PersonalFinance.Domain.DTO.Budget;
 
 namespace PersonalFinance.UI.Profiles
 {
@@ -10,6 +10,8 @@ namespace PersonalFinance.UI.Profiles
         {
             CreateMap<Budget, BudgetDTO>()
                 .ReverseMap();
+
+            CreateMap<AddBudgetDTO, Budget>();
         }
     }
 }

@@ -13,6 +13,7 @@ namespace PersonalFinance.Persistense.Interfaces
         IEnumerable<User> GetAllUsers(bool trackChanges);  
         User GetUser(Guid id, bool trackChanges);
         User GetUserByFullName(string firstName, string lastName, bool trackChanges);
+        void CreateUser (User user);
 
     }
 }

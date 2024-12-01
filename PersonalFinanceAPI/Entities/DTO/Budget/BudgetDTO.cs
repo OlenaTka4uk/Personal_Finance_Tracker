@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PersonalFinance.Domain.DTO
+namespace PersonalFinance.Domain.DTO.Budget
 {
     public class BudgetDTO
     {

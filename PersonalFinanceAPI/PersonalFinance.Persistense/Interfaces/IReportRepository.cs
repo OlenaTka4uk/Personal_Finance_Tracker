@@ -10,5 +10,6 @@ namespace PersonalFinance.Persistense.Interfaces
     public interface IReportRepository
     {
         IEnumerable<Report> GetAllReportsByUserId(Guid userId);
+        void CreateReport(Report report);
     }
 }

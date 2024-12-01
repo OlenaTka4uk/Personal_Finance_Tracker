@@ -17,10 +17,10 @@ namespace PersonalFinance.Persistense.Repositories
         {
         }
 
-        public IEnumerable<Transaction> GetAllTransaction(Guid id) => FindByCondition(x => x.UserId == id, false)
-            .ToList();
+        public void CreateTransaction(Transaction transaction) => Create(transaction);
+       
 
-        public IEnumerable<Transaction> GetAllTransactionsByDate(DateTime transactionDate) => FindByCondition(x => x.TransactionDate == transactionDate, false)
+        public IEnumerable<Transaction> GetAllTransaction(Guid id) => FindByCondition(x => x.UserId == id, false)
             .ToList();
 
         public IEnumerable<Transaction> GetAllTransactionsByUserAndDate(Guid userId, DateTime transactionDate, bool trackChanges) =>

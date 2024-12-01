@@ -11,5 +11,6 @@ namespace PersonalFinance.Persistense.Interfaces
     {
         IEnumerable<Budget> GetAllBudgetsByUserId(Guid userId);
         IEnumerable<Budget> GetAllBudgetsByUserName(string userFirstName, string userLastName);
+        void CreateBudget(Budget budget);
     }
 }

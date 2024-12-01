@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Entities.Models;
-using PersonalFinance.Domain.DTO;
+using PersonalFinance.Domain.DTO.Notification;
 
 namespace PersonalFinance.UI.Profiles
 {
@@ -10,6 +10,8 @@ namespace PersonalFinance.UI.Profiles
         {
             CreateMap<Notification, NotificationDTO>()
                 .ReverseMap();
+
+            CreateMap<AddNotificationDTO, Notification>();
         }
     }
 }

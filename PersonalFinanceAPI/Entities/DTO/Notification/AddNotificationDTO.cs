@@ -4,14 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PersonalFinance.Domain.DTO
+namespace PersonalFinance.Domain.DTO.Notification
 {
-    public class NotificationDTO
+    public class AddNotificationDTO
     {
-        public Guid NotificationId { get; set; }
         public Guid UserId { get; set; }
-        public string Message { get; set; } = string.Empty;
-        public bool IsRead { get; set; } = false;
+        public string Message { get; set; } = string.Empty;      
         public DateTime SentAt { get; set; } = DateTime.UtcNow;
     }
 }

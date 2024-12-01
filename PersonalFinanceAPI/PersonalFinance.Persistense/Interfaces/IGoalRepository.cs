@@ -12,5 +12,6 @@ namespace PersonalFinance.Persistense.Interfaces
         IEnumerable<Goal> GetAllGoalsByUserId(Guid userId);
         IEnumerable<Goal> GetAllGoalsByDeadline(DateTime deadline);
         IEnumerable<Goal> GetAllGoalsByAchievement(bool isAchieved);
+        void CreateGoal(Goal goal);
     }
 }

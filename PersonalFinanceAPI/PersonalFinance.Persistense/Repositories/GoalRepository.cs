@@ -11,9 +11,10 @@ namespace PersonalFinance.Persistense.Repositories
 {
     public class GoalRepository : RepositoryBase<Goal>, IGoalRepository
     {
-        public GoalRepository(RepositoryContext repositoryContext) : base(repositoryContext)
-        {
-        }
+        public GoalRepository(RepositoryContext repositoryContext) : base(repositoryContext) { }
+
+        public void CreateGoal(Goal goal) => Create(goal);
+        
 
         public IEnumerable<Goal> GetAllGoalsByAchievement(bool isAchieved) => FindByCondition(x => x.IsAchieved == isAchieved, false)
             .ToList();

@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Entities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PersonalFinance.Domain.DTO;
+using PersonalFinance.Domain.DTO.Transaction;
+using PersonalFinance.Domain.DTO.User;
 using PersonalFinance.Persistense.Interfaces;
 using PersonalFinance.Service.Interfaces.Logger;
 
@@ -23,12 +25,13 @@ namespace PersonalFinance.UI.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]       
-        [HttpGet("id: int")]
+        [HttpGet("id: int", Name = "TransactionByUserId")]
         public IActionResult GetAllTransactionById(Guid userId)
         {
             var user = _repository.User.GetUser(userId, trackChanges: false);
             if (user == null)
             {
+                _logger.LogError("User object is null");
                 return NotFound();
             }
 
@@ -45,11 +48,13 @@ namespace PersonalFinance.UI.Controllers
         {
             if (userFirstName == "" || userLastName == "")
             {
+                _logger.LogInfo("User first name or last name is empty");
                 return BadRequest();
             }
             var user = _repository.User.GetUserByFullName(userFirstName, userLastName, trackChanges: false);
             if (user == null)
             {
+                _logger.LogError("User object is not found");
                 return NotFound();
             }
             var transactions = _repository.Transaction.GetAllTransactionsByUserName(userFirstName, userLastName);
@@ -59,18 +64,38 @@ namespace PersonalFinance.UI.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("date: date", Name ="GetAllTransaction")]
+        [HttpGet("date: date", Name ="GetAllTransactionByDate")]
         public IActionResult GetAllTransactionByUserAndDate(Guid userId, DateTime transactionDate)
         {
             var user = _repository.User.GetUser(userId,trackChanges: false);
             if (user == null)
             {
+                _logger.LogError("User object is not found");
                 return NotFound();
             }
 
             var transactions = _repository.Transaction.GetAllTransactionsByUserAndDate(userId, transactionDate, trackChanges: false);
             var transactionsDTO = _mapper.Map<IEnumerable<TransactionDTO>>(transactions);
             return Ok(transactionsDTO);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult CreateTransaction([FromBody]AddTransactionDTO transaction)
+        {
+            if (transaction == null)
+            {
+                _logger.LogError("AddTransactionDTO object is null");
+                return BadRequest();
+            }
+
+            var transactionEntity = _mapper.Map<Transaction>(transaction);
+            _repository.Transaction.CreateTransaction(transactionEntity);
+            _repository.Save();
+
+            var transactionToReturn = _mapper.Map<TransactionDTO>(transactionEntity);
+            return CreatedAtRoute("TransactionByUserId", new { id = transactionToReturn.UserId }, transactionToReturn);
         }
     }
 }
