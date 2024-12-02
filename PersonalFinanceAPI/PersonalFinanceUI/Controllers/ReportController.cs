@@ -42,7 +42,7 @@ namespace PersonalFinance.UI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult CreateReport([FromBody]AddReportDTO report)
+        public IActionResult CreateReport(Guid userId, [FromBody]AddReportDTO report)
         {
             if (report == null)
             {
@@ -50,13 +50,19 @@ namespace PersonalFinance.UI.Controllers
                 return NotFound();
             }
 
+            var user = _repository.User.GetUser(userId, trackChanges: false);
+            if (user == null)
+            {
+                _logger.LogError("User is not found");
+                return NotFound();
+            }
 
             var reportEntity = _mapper.Map<Report>(report);
-            _repository.Report.CreateReport(reportEntity);
+            _repository.Report.CreateReport(userId, reportEntity);
             _repository.Save();
 
             var reportToReturn = _mapper.Map<ReportDTO>(reportEntity);
-            return CreatedAtRoute("ReportsByUserId", new { id = reportToReturn.UserId }, reportToReturn);
+            return CreatedAtRoute("ReportsByUserId", new {userId, id = reportToReturn.ReportId }, reportToReturn);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using PersonalFinance.Domain.Enum;
+﻿using PersonalFinance.Domain.DTO.Transaction;
+using PersonalFinance.Domain.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,9 @@ namespace PersonalFinance.Domain.DTO.User
         public string UserFirstName { get; set; } = string.Empty;
         public string UserLastName { get; set; }
         public string Email { get; set; } = string.Empty;
-        public string PasswordHash { get; set; } = string.Empty;      
+        public string PasswordHash { get; set; } = string.Empty;
+
+        public IEnumerable<AddTransactionDTO> Transactions { get; set; }
         
     }
 }

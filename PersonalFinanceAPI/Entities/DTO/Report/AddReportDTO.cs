@@ -9,7 +9,6 @@ namespace PersonalFinance.Domain.DTO.Report
 {
     public class AddReportDTO
     {
-        public Guid UserId { get; set; }
         public string ReportTitle { get; set; } = "Monthly Financial Report";
         public ReportType ReportType { get; set; } = ReportType.PDF;
         public string FilePath { get; set; } = string.Empty;

@@ -6,6 +6,7 @@ using PersonalFinance.Domain.DTO.Transaction;
 using PersonalFinance.Domain.DTO.User;
 using PersonalFinance.Persistense.Interfaces;
 using PersonalFinance.Service.Interfaces.Logger;
+using System.ComponentModel.Design;
 
 namespace PersonalFinance.UI.Controllers
 {
@@ -82,7 +83,8 @@ namespace PersonalFinance.UI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult CreateTransaction([FromBody]AddTransactionDTO transaction)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult CreateTransaction(Guid userId, [FromBody]AddTransactionDTO transaction)
         {
             if (transaction == null)
             {
@@ -90,12 +92,19 @@ namespace PersonalFinance.UI.Controllers
                 return BadRequest();
             }
 
+           var user = _repository.User.GetUser(userId, trackChanges: false);
+            if (user == null)
+            {
+                _logger.LogError("User is not found");
+                return NotFound();
+            }
+
             var transactionEntity = _mapper.Map<Transaction>(transaction);
-            _repository.Transaction.CreateTransaction(transactionEntity);
+            _repository.Transaction.CreateTransaction(userId, transactionEntity);
             _repository.Save();
 
             var transactionToReturn = _mapper.Map<TransactionDTO>(transactionEntity);
-            return CreatedAtRoute("TransactionByUserId", new { id = transactionToReturn.UserId }, transactionToReturn);
+            return CreatedAtRoute("TransactionByUserId", new { userId, id = transactionToReturn.TransactionId }, transactionToReturn);
         }
     }
 }

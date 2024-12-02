@@ -65,7 +65,7 @@ namespace PersonalFinance.UI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult CreateBudget([FromBody]AddBudgetDTO budget)
+        public IActionResult CreateBudget(Guid userId, [FromBody]AddBudgetDTO budget)
         {
             if (budget == null)
             {
@@ -73,13 +73,19 @@ namespace PersonalFinance.UI.Controllers
                 return NotFound();
             }
 
+            var user = _repository.User.GetUser(userId, trackChanges: false);
+            if (user == null)
+            {
+                _logger.LogError("User is not found");
+                return NotFound();
+            }
 
             var budgetEntity = _mapper.Map<Budget>(budget);
-            _repository.Budget.CreateBudget(budgetEntity);
+            _repository.Budget.CreateBudget(userId, budgetEntity);
             _repository.Save();
 
             var budgetToReturn = _mapper.Map<BudgetDTO>(budgetEntity);
-            return CreatedAtRoute("BudgetByUserId", new { id = budgetToReturn.UserId }, budgetToReturn);
+            return CreatedAtRoute("BudgetByUserId", new {userId, id = budgetToReturn.BudgetId }, budgetToReturn);
         }
     }
 }

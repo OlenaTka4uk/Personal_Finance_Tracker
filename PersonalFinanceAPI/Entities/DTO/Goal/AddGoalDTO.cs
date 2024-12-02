@@ -8,7 +8,6 @@ namespace PersonalFinance.Domain.DTO.Goal
 {
     public class AddGoalDTO
     {
-        public Guid UserId { get; set; }
         public string GoalName { get; set; } = string.Empty;
         public decimal TargetAmount { get; set; }
         public decimal CurrentAmount { get; set; } = 0.0m;

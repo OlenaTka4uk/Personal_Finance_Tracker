@@ -9,7 +9,6 @@ namespace PersonalFinance.Domain.DTO.Transaction
 {
     public class AddTransactionDTO
     {
-        public Guid UserId { get; set; }
         public TransactionType TransactionType { get; set; } = TransactionType.Expense;
         public TransactionCategory Category { get; set; } = TransactionCategory.Salary;
         public decimal Amount { get; set; }

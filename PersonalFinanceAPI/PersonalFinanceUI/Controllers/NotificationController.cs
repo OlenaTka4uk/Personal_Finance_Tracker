@@ -53,7 +53,7 @@ namespace PersonalFinance.UI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult CreateNotification([FromBody]AddNotificationDTO notification)
+        public IActionResult CreateNotification(Guid userId, [FromBody]AddNotificationDTO notification)
         {
             if (notification == null)
             {
@@ -61,13 +61,19 @@ namespace PersonalFinance.UI.Controllers
                 return NotFound();
             }
 
+            var user = _repository.User.GetUser(userId, trackChanges: false);
+            if (user == null)
+            {
+                _logger.LogError("User is not found");
+                return NotFound();
+            }
 
             var notificationEntity = _mapper.Map<Notification>(notification);
-            _repository.Notification.CreateNotification(notificationEntity);
+            _repository.Notification.CreateNotification(userId, notificationEntity);
             _repository.Save();
 
             var notificationToReturn = _mapper.Map<NotificationDTO>(notificationEntity);
-            return CreatedAtRoute("GetNotificationsByUserId", new { id = notificationToReturn.UserId }, notificationToReturn);
+            return CreatedAtRoute("GetNotificationsByUserId", new {userId, id = notificationToReturn.NotificationId }, notificationToReturn);
         }
     }
 }

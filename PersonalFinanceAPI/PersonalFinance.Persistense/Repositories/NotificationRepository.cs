@@ -13,8 +13,11 @@ namespace PersonalFinance.Persistense.Repositories
     {
         public NotificationRepository(RepositoryContext repositoryContext) : base(repositoryContext) { }
 
-        public void CreateNotification(Notification notification) => Create(notification);
-       
+        public void CreateNotification(Guid userId, Notification notification)
+        {
+            notification.UserId = userId;
+            Create(notification);
+        }
 
         public IEnumerable<Notification> GetAllNotificationsByReading(bool isRead) => FindByCondition(x => x.IsRead == isRead, false)
             .ToList();

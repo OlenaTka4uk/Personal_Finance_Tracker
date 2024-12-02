@@ -13,12 +13,14 @@ namespace PersonalFinance.Persistense.Repositories
 {
     public class TransactionRepository : RepositoryBase<Transaction>, ITransactionRepository
     {
-        public TransactionRepository(RepositoryContext repositoryContext) : base(repositoryContext)
-        {
-        }
+        public TransactionRepository(RepositoryContext repositoryContext) : base(repositoryContext)  {}
 
-        public void CreateTransaction(Transaction transaction) => Create(transaction);
-       
+        
+        public void CreateTransaction(Guid UserId, Transaction transaction)
+        {
+            transaction.UserId = UserId;
+            Create(transaction);
+        }
 
         public IEnumerable<Transaction> GetAllTransaction(Guid id) => FindByCondition(x => x.UserId == id, false)
             .ToList();

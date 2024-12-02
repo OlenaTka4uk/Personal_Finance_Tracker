@@ -62,7 +62,7 @@ namespace PersonalFinance.UI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult CreateGoal([FromBody] AddGoalDTO goal)
+        public IActionResult CreateGoal(Guid userId, [FromBody] AddGoalDTO goal)
         {
             if (goal == null)
             {
@@ -70,13 +70,19 @@ namespace PersonalFinance.UI.Controllers
                 return NotFound();
             }
 
+            var user = _repository.User.GetUser(userId, trackChanges: false);
+            if (user == null)
+            {
+                _logger.LogError($"Could not find user {userId}");
+                return NotFound();
+            }
 
             var goalEntity = _mapper.Map<Goal>(goal);
-            _repository.Goal.CreateGoal(goalEntity);
+            _repository.Goal.CreateGoal(userId, goalEntity);
             _repository.Save();
 
             var goalToReturn = _mapper.Map<GoalDTO>(goalEntity);
-            return CreatedAtRoute("GoalsByUserId", new { id = goalToReturn.UserId }, goalToReturn);
+            return CreatedAtRoute("GoalsByUserId", new {userId, id = goalToReturn.GoalId }, goalToReturn);
         }
     }
 }

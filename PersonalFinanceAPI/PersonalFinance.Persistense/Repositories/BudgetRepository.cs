@@ -14,8 +14,11 @@ namespace PersonalFinance.Persistense.Repositories
     {
         public BudgetRepository(RepositoryContext repositoryContext) : base(repositoryContext) { }
 
-        public void CreateBudget(Budget budget) => Create(budget);
-       
+        public void CreateBudget(Guid userId, Budget budget)
+        {
+            budget.UserId = userId;
+            Create(budget);
+        }
 
         public IEnumerable<Budget> GetAllBudgetsByUserId(Guid userId) => FindByCondition(x => x.UserId == userId, false)
             .ToList();

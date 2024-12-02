@@ -13,7 +13,11 @@ namespace PersonalFinance.Persistense.Repositories
     {
         public ReportRepository(RepositoryContext repositoryContext) : base(repositoryContext) { }
 
-        public void CreateReport(Report report) => Create(report);       
+        public void CreateReport(Guid userId, Report report)
+        {
+            report.UserId = userId;
+            Create(report);
+        }
 
         public IEnumerable<Report> GetAllReportsByUserId(Guid userId) => FindByCondition(x => x.UserId == userId, false)
             .ToList();
