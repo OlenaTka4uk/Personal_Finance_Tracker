@@ -20,11 +20,16 @@ namespace PersonalFinance.Persistense.Repositories
             Create(budget);
         }
 
+        public void DeleteBudget(Budget budget) => Delete(budget);
+        
         public IEnumerable<Budget> GetAllBudgetsByUserId(Guid userId) => FindByCondition(x => x.UserId == userId, false)
             .ToList();
 
         public IEnumerable<Budget> GetAllBudgetsByUserName(string userFirstName, string userLastName) => FindByCondition(x => x.User.UserLastName == userLastName
             && x.User.UserFirstName == userFirstName, false).ToList();
-       
+
+        public Budget GetBudget(Guid budgetId, bool trackChanges) => FindByCondition(c => c.BudgetId.Equals(budgetId), trackChanges)
+            .SingleOrDefault();
+
     }
 }

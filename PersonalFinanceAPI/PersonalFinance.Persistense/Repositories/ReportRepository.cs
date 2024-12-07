@@ -19,8 +19,14 @@ namespace PersonalFinance.Persistense.Repositories
             Create(report);
         }
 
+        public void DeleteReport(Report report) => Delete(report);
+       
+
         public IEnumerable<Report> GetAllReportsByUserId(Guid userId) => FindByCondition(x => x.UserId == userId, false)
             .ToList();
+
+        public Report GetReport(Guid reportId, bool trackChanges) => FindByCondition(c => c.ReportId.Equals(reportId), trackChanges)
+            .SingleOrDefault();
 
     }
 }

@@ -3,6 +3,7 @@ using Entities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PersonalFinance.Domain.DTO.Budget;
+using PersonalFinance.Domain.DTO.Goal;
 using PersonalFinance.Domain.DTO.User;
 using PersonalFinance.Persistense.Interfaces;
 using PersonalFinance.Service.Interfaces.Logger;
@@ -86,6 +87,40 @@ namespace PersonalFinance.UI.Controllers
 
             var budgetToReturn = _mapper.Map<BudgetDTO>(budgetEntity);
             return CreatedAtRoute("BudgetByUserId", new {userId, id = budgetToReturn.BudgetId }, budgetToReturn);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("{id}", Name = "BudgetById")]
+        public IActionResult GetBudget(Guid id)
+        {
+            var budget = _repository.Budget.GetBudget(id, trackChanges: false);
+
+            if (budget == null)
+            {
+                _logger.LogError("Budget is null");
+                return NotFound();
+            }
+
+            var budgetDTO = _mapper.Map<BudgetDTO>(budget);
+            return Ok(budgetDTO);
+        }
+
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpDelete("id:int")]
+        public IActionResult DeleteBudget(Guid budgetId)
+        {
+            var budget = _repository.Budget.GetBudget(budgetId, trackChanges: false);
+            if (budget == null)
+            {
+                _logger.LogError($"Unable to delete budget: {budgetId}");
+                return NotFound();
+            }
+
+            _repository.Budget.DeleteBudget(budget);
+            _repository.Save();
+            return NoContent();
         }
     }
 }

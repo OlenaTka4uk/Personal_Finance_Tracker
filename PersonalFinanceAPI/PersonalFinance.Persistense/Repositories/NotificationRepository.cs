@@ -19,12 +19,18 @@ namespace PersonalFinance.Persistense.Repositories
             Create(notification);
         }
 
+        public void DeleteNotification(Notification notification) => Delete(notification);
+       
+
         public IEnumerable<Notification> GetAllNotificationsByReading(bool isRead) => FindByCondition(x => x.IsRead == isRead, false)
             .ToList();
       
 
         public IEnumerable<Notification> GetAllNotificationsByUserId(Guid userId) => FindByCondition(x => x.UserId == userId, false)
             .ToList();
+
+        public Notification GetNotification(Guid notificationId, bool trackChanges) => FindByCondition(c => c.NotificationId.Equals(notificationId), trackChanges)
+            .SingleOrDefault();
 
     }
 }

@@ -3,6 +3,7 @@ using Entities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PersonalFinance.Domain.DTO.Report;
+using PersonalFinance.Domain.DTO.Transaction;
 using PersonalFinance.Domain.DTO.User;
 using PersonalFinance.Persistense.Interfaces;
 using PersonalFinance.Service.Interfaces.Logger;
@@ -63,6 +64,40 @@ namespace PersonalFinance.UI.Controllers
 
             var reportToReturn = _mapper.Map<ReportDTO>(reportEntity);
             return CreatedAtRoute("ReportsByUserId", new {userId, id = reportToReturn.ReportId }, reportToReturn);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("{id}", Name = "ReportById")]
+        public IActionResult GetReport(Guid id)
+        {
+            var report = _repository.Report.GetReport(id, trackChanges: false);
+
+            if (report == null)
+            {
+                _logger.LogError("Report is null");
+                return NotFound();
+            }
+
+            var reportDTO = _mapper.Map<ReportDTO>(report);
+            return Ok(reportDTO);
+        }
+
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpDelete("id:int")]
+        public IActionResult DeleteReport(Guid reportId)
+        {
+            var report = _repository.Report.GetReport(reportId, trackChanges: false);
+            if (report == null)
+            {
+                _logger.LogError($"Unable to delete report: {reportId}");
+                return NotFound();
+            }
+
+            _repository.Report.DeleteReport(report);
+            _repository.Save();
+            return NoContent();
         }
     }
 }

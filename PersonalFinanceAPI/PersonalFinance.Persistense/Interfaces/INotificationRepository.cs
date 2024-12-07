@@ -11,6 +11,8 @@ namespace PersonalFinance.Persistense.Interfaces
     {
         IEnumerable<Notification> GetAllNotificationsByUserId(Guid userId);
         IEnumerable<Notification> GetAllNotificationsByReading(bool isRead);
+        Notification GetNotification(Guid notificationId, bool trackChanges);
         void CreateNotification(Guid userId, Notification notification);
+        void DeleteNotification(Notification notification);
     }
 }

@@ -106,5 +106,41 @@ namespace PersonalFinance.UI.Controllers
             var transactionToReturn = _mapper.Map<TransactionDTO>(transactionEntity);
             return CreatedAtRoute("TransactionByUserId", new { userId, id = transactionToReturn.TransactionId }, transactionToReturn);
         }
+
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("{id}", Name = "TransactionById")]
+        public IActionResult GetTransaction(Guid id)
+        {
+            var transaction = _repository.Transaction.GetTransaction(id, trackChanges: false);
+          
+            if (transaction == null)
+            {
+                _logger.LogError("Transaction is null");
+                return NotFound();
+            }
+
+            var transactionDTO = _mapper.Map<TransactionDTO>(transaction);
+            return Ok(transactionDTO);
+        }
+
+
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpDelete("id:int")]
+        public IActionResult DeleteTransaction(Guid transactionId)
+        {
+            var transaction = _repository.Transaction.GetTransaction(transactionId, trackChanges: false);
+            if (transaction == null)
+            {
+                _logger.LogError($"Unable to delete transaction: {transactionId}");
+                return NotFound();
+            }
+
+            _repository.Transaction.DeleteTransaction(transaction);
+            _repository.Save();
+            return NoContent();
+        }
     }
 }

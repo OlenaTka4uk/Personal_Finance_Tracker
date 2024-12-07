@@ -10,6 +10,8 @@ namespace PersonalFinance.Persistense.Interfaces
     public interface IReportRepository
     {
         IEnumerable<Report> GetAllReportsByUserId(Guid userId);
+        Report GetReport(Guid reportId, bool trackChanges);
         void CreateReport(Guid userId, Report report);
+        void DeleteReport(Report report);
     }
 }

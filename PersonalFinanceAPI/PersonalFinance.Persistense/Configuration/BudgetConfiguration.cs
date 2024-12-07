@@ -29,7 +29,7 @@ namespace PersonalFinance.Persistense.Configuration
             builder.HasOne(b => b.User)
                 .WithMany(u => u.Budgets)
                 .HasForeignKey(b => b.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasData(
             new Budget 
@@ -41,7 +41,8 @@ namespace PersonalFinance.Persistense.Configuration
                 UserId = Guid.Parse("11111111-1111-1111-1111-111111111111") 
             },
             new Budget 
-            { BudgetId = Guid.NewGuid(), 
+            { 
+                BudgetId = Guid.NewGuid(), 
                 Category = BudgetCategory.Savings, 
                 Amount = 300.00M, 
                 Spent = 50.00M, 

@@ -29,5 +29,7 @@ namespace PersonalFinance.Persistense.Repositories
 
         public void CreateUser(User user) => Create(user);
 
+        public void DeleteUser(User user) => Delete(user);
+        
     }
 }

@@ -22,6 +22,9 @@ namespace PersonalFinance.Persistense.Repositories
             Create(transaction);
         }
 
+        public void DeleteTransaction(Transaction transaction) => Delete(transaction);
+        
+
         public IEnumerable<Transaction> GetAllTransaction(Guid id) => FindByCondition(x => x.UserId == id, false)
             .ToList();
 
@@ -32,6 +35,10 @@ namespace PersonalFinance.Persistense.Repositories
 
         public IEnumerable<Transaction> GetAllTransactionsByUserName(string userFirstname, string userLastName) => FindByCondition(x => x.User.UserLastName == userLastName
              && x.User.UserFirstName == userFirstname, false).ToList();
-        
+
+        public Transaction GetTransaction(Guid transactionId, bool trackChanges) =>
+            FindByCondition(c => c.TransactionId.Equals(transactionId), trackChanges)
+            .SingleOrDefault();
+
     }
 }

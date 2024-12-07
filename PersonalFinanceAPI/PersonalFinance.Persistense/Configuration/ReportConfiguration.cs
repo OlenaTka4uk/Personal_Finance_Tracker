@@ -30,7 +30,7 @@ namespace PersonalFinance.Persistense.Configuration
             builder.HasOne(r => r.User)
                 .WithMany(u => u.Reports)
                 .HasForeignKey(r => r.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
                 
 
             builder.HasData(

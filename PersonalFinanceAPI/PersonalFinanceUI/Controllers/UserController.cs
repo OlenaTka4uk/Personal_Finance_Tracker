@@ -94,5 +94,22 @@ namespace PersonalFinance.UI.Controllers
             var userToReturn = _mapper.Map<UserDTO>(userEntity);
             return CreatedAtRoute("UserById", new { id = userToReturn.UserId }, userToReturn);
         }
+
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpDelete("id:int")]
+        public IActionResult DeleteUser(Guid userId)
+        {
+            var user = _repository.User.GetUser(userId, trackChanges: false);
+            if (user == null)
+            {
+                _logger.LogError($"Unable to delete user: {userId}");
+                return NotFound();
+            }
+
+            _repository.User.DeleteUser(user);
+            _repository.Save();
+            return NoContent();
+        }
     }
 }

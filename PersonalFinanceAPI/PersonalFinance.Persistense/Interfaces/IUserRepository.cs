@@ -14,6 +14,7 @@ namespace PersonalFinance.Persistense.Interfaces
         User GetUser(Guid id, bool trackChanges);
         User GetUserByFullName(string firstName, string lastName, bool trackChanges);
         void CreateUser (User user);
+        void DeleteUser (User user);          
 
     }
 }

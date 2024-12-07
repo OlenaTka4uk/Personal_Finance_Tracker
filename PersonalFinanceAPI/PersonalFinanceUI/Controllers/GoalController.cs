@@ -3,6 +3,7 @@ using Entities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PersonalFinance.Domain.DTO.Goal;
+using PersonalFinance.Domain.DTO.Notification;
 using PersonalFinance.Domain.DTO.User;
 using PersonalFinance.Persistense.Interfaces;
 using PersonalFinance.Service.Interfaces.Logger;
@@ -83,6 +84,41 @@ namespace PersonalFinance.UI.Controllers
 
             var goalToReturn = _mapper.Map<GoalDTO>(goalEntity);
             return CreatedAtRoute("GoalsByUserId", new {userId, id = goalToReturn.GoalId }, goalToReturn);
+        }
+
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("{id}", Name = "GoalById")]
+        public IActionResult GetGoal(Guid id)
+        {
+            var goal = _repository.Goal.GetGoal(id, trackChanges: false);
+
+            if (goal == null)
+            {
+                _logger.LogError("Goal is null");
+                return NotFound();
+            }
+
+            var goalDTO = _mapper.Map<GoalDTO>(goal);
+            return Ok(goalDTO);
+        }
+
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpDelete("id:int")]
+        public IActionResult DeleteGoal(Guid goalId)
+        {
+            var goal = _repository.Goal.GetGoal(goalId, trackChanges: false);
+            if (goal == null)
+            {
+                _logger.LogError($"Unable to delete goal: {goalId}");
+                return NotFound();
+            }
+
+            _repository.Goal.DeleteGoal(goal);
+            _repository.Save();
+            return NoContent();
         }
     }
 }

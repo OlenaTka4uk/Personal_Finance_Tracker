@@ -3,6 +3,7 @@ using Entities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PersonalFinance.Domain.DTO.Notification;
+using PersonalFinance.Domain.DTO.Report;
 using PersonalFinance.Domain.DTO.User;
 using PersonalFinance.Persistense.Interfaces;
 using PersonalFinance.Service.Interfaces.Logger;
@@ -74,6 +75,40 @@ namespace PersonalFinance.UI.Controllers
 
             var notificationToReturn = _mapper.Map<NotificationDTO>(notificationEntity);
             return CreatedAtRoute("GetNotificationsByUserId", new {userId, id = notificationToReturn.NotificationId }, notificationToReturn);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("{id}", Name = "NotificationById")]
+        public IActionResult GetNotification(Guid id)
+        {
+            var notification = _repository.Notification.GetNotification(id, trackChanges: false);
+
+            if (notification == null)
+            {
+                _logger.LogError("Notification is null");
+                return NotFound();
+            }
+
+            var notificationDTO = _mapper.Map<NotificationDTO>(notification);
+            return Ok(notificationDTO);
+        }
+
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpDelete("id:int")]
+        public IActionResult DeleteNotification(Guid notificationId)
+        {
+            var notification = _repository.Notification.GetNotification(notificationId, trackChanges: false);
+            if (notification == null)
+            {
+                _logger.LogError($"Unable to delete notification: {notificationId}");
+                return NotFound();
+            }
+
+            _repository.Notification.DeleteNotification(notification);
+            _repository.Save();
+            return NoContent();
         }
     }
 }

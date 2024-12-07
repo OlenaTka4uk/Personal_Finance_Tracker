@@ -19,6 +19,8 @@ namespace PersonalFinance.Persistense.Repositories
             Create(goal);
         }
 
+        public void DeleteGoal(Goal goal) => Delete(goal);
+       
         public IEnumerable<Goal> GetAllGoalsByAchievement(bool isAchieved) => FindByCondition(x => x.IsAchieved == isAchieved, false)
             .ToList();
 
@@ -29,6 +31,9 @@ namespace PersonalFinance.Persistense.Repositories
 
         public IEnumerable<Goal> GetAllGoalsByUserId(Guid userId) => FindByCondition(x => x.UserId == userId, false)
             .ToList();
+
+        public Goal GetGoal(Guid goalId, bool trackChanges) => FindByCondition(c => c.GoalId.Equals(goalId), trackChanges)
+            .SingleOrDefault();
 
     }
 }

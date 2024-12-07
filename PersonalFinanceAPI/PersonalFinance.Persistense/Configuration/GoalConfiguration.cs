@@ -28,7 +28,7 @@ namespace PersonalFinance.Persistense.Configuration
             builder.HasOne(g => g.User)
                 .WithMany(u => u.Goals)
                 .HasForeignKey(g => g.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasData(
             new Goal
