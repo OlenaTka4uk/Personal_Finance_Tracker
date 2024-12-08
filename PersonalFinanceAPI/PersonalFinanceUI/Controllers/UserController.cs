@@ -2,6 +2,7 @@
 using Entities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PersonalFinance.Domain.DTO.Transaction;
 using PersonalFinance.Domain.DTO.User;
 using PersonalFinance.Persistense.Interfaces;
 using PersonalFinance.Persistense.Repositories;
@@ -97,17 +98,42 @@ namespace PersonalFinance.UI.Controllers
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpDelete("id:int")]
-        public IActionResult DeleteUser(Guid userId)
+        [HttpDelete("{id}")]
+        public IActionResult DeleteUser(Guid id)
         {
-            var user = _repository.User.GetUser(userId, trackChanges: false);
+            var user = _repository.User.GetUser(id, trackChanges: false);
             if (user == null)
             {
-                _logger.LogError($"Unable to delete user: {userId}");
+                _logger.LogError($"Unable to delete user: {id}");
                 return NotFound();
             }
 
             _repository.User.DeleteUser(user);
+            _repository.Save();
+            return NoContent();
+        }
+
+
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPut("{id}")]
+        public IActionResult UpdateUser(Guid id, [FromBody] UpdateUserDTO user)
+        {            
+            if (user == null)
+            {
+                _logger.LogError("User is not found");
+                return BadRequest();
+            }
+
+            var userEntity = _repository.User.GetUser(id, trackChanges: true);
+            if (userEntity == null)
+            {
+                _logger.LogError("User is not exist");
+                return NotFound();
+            }
+
+            _mapper.Map(user, userEntity);
             _repository.Save();
             return NoContent();
         }

@@ -26,7 +26,7 @@ namespace PersonalFinance.UI.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("id: int", Name = "GoalsByUserId")]
+        [HttpGet(Name = "GoalsByUserId")]
         public IActionResult GetAllGoalsByUserId(Guid userId)
         {
            var user = _repository.User.GetUser(userId, trackChanges: false);
@@ -106,17 +106,48 @@ namespace PersonalFinance.UI.Controllers
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpDelete("id:int")]
-        public IActionResult DeleteGoal(Guid goalId)
+        [HttpDelete("{id}")]
+        public IActionResult DeleteGoal(Guid id)
         {
-            var goal = _repository.Goal.GetGoal(goalId, trackChanges: false);
+            var goal = _repository.Goal.GetGoal(id, trackChanges: false);
             if (goal == null)
             {
-                _logger.LogError($"Unable to delete goal: {goalId}");
+                _logger.LogError($"Unable to delete goal: {id}");
                 return NotFound();
             }
 
             _repository.Goal.DeleteGoal(goal);
+            _repository.Save();
+            return NoContent();
+        }
+
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPut("{id}")]
+        public IActionResult UpdateGoal(Guid userId, Guid id, [FromBody] UpdateGoalDTO goal)
+        {
+            if (goal == null)
+            {
+                _logger.LogError($"Goal for the user {userId} is null");
+                return BadRequest();
+            }
+
+            var user = _repository.User.GetUser(userId, trackChanges: false);
+            if (user == null)
+            {
+                _logger.LogError("User is not found");
+                return NotFound();
+            }
+
+            var goalEntity = _repository.Goal.GetGoal(id, trackChanges: true);
+            if (goalEntity == null)
+            {
+                _logger.LogError("Goal is not exist");
+                return NotFound();
+            }
+
+            _mapper.Map(goal, goalEntity);
             _repository.Save();
             return NoContent();
         }

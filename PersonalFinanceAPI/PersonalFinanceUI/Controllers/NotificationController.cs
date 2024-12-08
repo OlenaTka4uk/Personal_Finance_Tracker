@@ -26,7 +26,7 @@ namespace PersonalFinance.UI.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("id: int", Name = "GetNotificationsByUserId")]
+        [HttpGet(Name = "GetNotificationsByUserId")]
         public IActionResult GetAllNotificationsByUserId(Guid userId)
         {
             var user = _repository.User.GetUser(userId, trackChanges: false);
@@ -96,17 +96,48 @@ namespace PersonalFinance.UI.Controllers
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpDelete("id:int")]
-        public IActionResult DeleteNotification(Guid notificationId)
+        [HttpDelete("{id}")]
+        public IActionResult DeleteNotification(Guid id)
         {
-            var notification = _repository.Notification.GetNotification(notificationId, trackChanges: false);
+            var notification = _repository.Notification.GetNotification(id, trackChanges: false);
             if (notification == null)
             {
-                _logger.LogError($"Unable to delete notification: {notificationId}");
+                _logger.LogError($"Unable to delete notification: {id}");
                 return NotFound();
             }
 
             _repository.Notification.DeleteNotification(notification);
+            _repository.Save();
+            return NoContent();
+        }
+
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPut("{id}")]
+        public IActionResult UpdateNotification(Guid userId, Guid id, [FromBody] UpdateNotificationDTO notification)
+        {
+            if (notification == null)
+            {
+                _logger.LogError($"Notification for the user {userId} is null");
+                return BadRequest();
+            }
+
+            var user = _repository.User.GetUser(userId, trackChanges: false);
+            if (user == null)
+            {
+                _logger.LogError("User is not found");
+                return NotFound();
+            }
+
+            var notificationEntity = _repository.Notification.GetNotification(id, trackChanges: true);
+            if (notificationEntity == null)
+            {
+                _logger.LogError("Notification is not exist");
+                return NotFound();
+            }
+
+            _mapper.Map(notification, notificationEntity);
             _repository.Save();
             return NoContent();
         }

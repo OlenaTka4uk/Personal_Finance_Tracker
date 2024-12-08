@@ -26,7 +26,7 @@ namespace PersonalFinance.UI.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("id: int", Name = "ReportsByUserId")]
+        [HttpGet(Name = "ReportsByUserId")]
         public IActionResult GetAllReportsByUserId(Guid userId)
         {
             var user = _repository.User.GetUser(userId, trackChanges: false);
@@ -85,17 +85,48 @@ namespace PersonalFinance.UI.Controllers
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpDelete("id:int")]
-        public IActionResult DeleteReport(Guid reportId)
+        [HttpDelete("{id}")]
+        public IActionResult DeleteReport(Guid id)
         {
-            var report = _repository.Report.GetReport(reportId, trackChanges: false);
+            var report = _repository.Report.GetReport(id, trackChanges: false);
             if (report == null)
             {
-                _logger.LogError($"Unable to delete report: {reportId}");
+                _logger.LogError($"Unable to delete report: {id}");
                 return NotFound();
             }
 
             _repository.Report.DeleteReport(report);
+            _repository.Save();
+            return NoContent();
+        }
+
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPut("{id}")]
+        public IActionResult UpdateReport(Guid userId, Guid id, [FromBody] UpdateReportDTO report)
+        {
+            if (report == null)
+            {
+                _logger.LogError($"Report for the user {userId} is null");
+                return BadRequest();
+            }
+
+            var user = _repository.User.GetUser(userId, trackChanges: false);
+            if (user == null)
+            {
+                _logger.LogError("User is not found");
+                return NotFound();
+            }
+
+            var reportEntity = _repository.Report.GetReport(id, trackChanges: true);
+            if (reportEntity == null)
+            {
+                _logger.LogError("Report is not exist");
+                return NotFound();
+            }
+
+            _mapper.Map(report, reportEntity);
             _repository.Save();
             return NoContent();
         }

@@ -13,5 +13,6 @@ namespace PersonalFinance.Domain.DTO.Goal
         public decimal CurrentAmount { get; set; } = 0.0m;
         public DateTime Deadline { get; set; }
         public string Description { get; set; } = string.Empty;
+        public bool IsAchieved { get; set; } = false;
     }
 }

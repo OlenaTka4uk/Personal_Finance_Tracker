@@ -10,5 +10,6 @@ namespace PersonalFinance.Domain.DTO.Notification
     {
         public string Message { get; set; } = string.Empty;
         public DateTime SentAt { get; set; } = DateTime.UtcNow;
+        public bool IsRead { get; set; } = false;
     }
 }

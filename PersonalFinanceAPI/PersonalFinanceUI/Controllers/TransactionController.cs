@@ -26,7 +26,7 @@ namespace PersonalFinance.UI.Controllers
 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]       
-        [HttpGet("id: int", Name = "TransactionByUserId")]
+        [HttpGet(Name = "TransactionByUserId")]
         public IActionResult GetAllTransactionById(Guid userId)
         {
             var user = _repository.User.GetUser(userId, trackChanges: false);
@@ -128,17 +128,48 @@ namespace PersonalFinance.UI.Controllers
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpDelete("id:int")]
-        public IActionResult DeleteTransaction(Guid transactionId)
+        [HttpDelete("{id}")]
+        public IActionResult DeleteTransaction(Guid id)
         {
-            var transaction = _repository.Transaction.GetTransaction(transactionId, trackChanges: false);
+            var transaction = _repository.Transaction.GetTransaction(id, trackChanges: false);
             if (transaction == null)
             {
-                _logger.LogError($"Unable to delete transaction: {transactionId}");
+                _logger.LogError($"Unable to delete transaction: {id}");
                 return NotFound();
             }
 
             _repository.Transaction.DeleteTransaction(transaction);
+            _repository.Save();
+            return NoContent();
+        }
+
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPut("{id}")]
+        public IActionResult UpdateTransaction(Guid userId, Guid id, [FromBody] UpdateTransactionDTO transaction)
+        {
+            if (transaction == null)
+            {
+                _logger.LogError($"Transaction for the user {userId} is null");
+                return BadRequest();
+            }
+
+            var user = _repository.User.GetUser(userId, trackChanges: false);
+            if (user == null)
+            {
+                _logger.LogError("User is not found");
+                return NotFound();
+            }
+
+            var transactionEntity = _repository.Transaction.GetTransaction(id, trackChanges: true);
+            if (transactionEntity == null)
+            {
+                _logger.LogError("Transaction is not exist");
+                return NotFound();
+            }
+
+            _mapper.Map(transaction, transactionEntity);
             _repository.Save();
             return NoContent();
         }
