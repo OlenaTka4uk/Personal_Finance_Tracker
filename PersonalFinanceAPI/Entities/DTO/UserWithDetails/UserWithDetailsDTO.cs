@@ -14,6 +14,7 @@ namespace PersonalFinance.Domain.DTO.UserWithDetails
 {
     public class UserWithDetailsDTO
     {
+        public Guid UserId { get; set; }
         public string UserFirstName { get; set; } = string.Empty;
         public string UserLastName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
@@ -22,10 +23,10 @@ namespace PersonalFinance.Domain.DTO.UserWithDetails
         public Role Role { get; set; } = Role.User;
 
         // Navigation properties
-        public ICollection<TransactionDTO> Transactions { get; set; }
-        public ICollection<BudgetDTO> Budgets { get; set; }
-        public ICollection<GoalDTO> Goals { get; set; }
-        public ICollection<NotificationDTO> Notifications { get; set; }
-        public ICollection<ReportDTO> Reports { get; set; }
+        public IEnumerable<TransactionDTO> Transactions { get; set; }
+        public IEnumerable<BudgetDTO> Budgets { get; set; }
+        public IEnumerable<GoalDTO> Goals { get; set; }
+        public IEnumerable<NotificationDTO> Notifications { get; set; }
+        public IEnumerable<ReportDTO> Reports { get; set; }
     }
 }

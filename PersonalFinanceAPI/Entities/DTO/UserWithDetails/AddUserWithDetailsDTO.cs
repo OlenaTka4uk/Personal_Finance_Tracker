@@ -22,10 +22,8 @@ namespace PersonalFinance.Domain.DTO.UserWithDetails
         public Role Role { get; set; } = Role.User;
 
         // Navigation properties
-        public ICollection<AddTransactionDTO> Transactions { get; set; }
+        public IEnumerable<TransactionDTO> Transactions { get; set; }
         public ICollection<AddBudgetDTO> Budgets { get; set; }
-        public ICollection<AddGoalDTO> Goals { get; set; }
-        public ICollection<AddNotificationDTO> Notifications { get; set; }
-        public ICollection<AddReportDTO> Reports { get; set; }
+        public ICollection<AddGoalDTO> Goals { get; set; }       
     }
 }
