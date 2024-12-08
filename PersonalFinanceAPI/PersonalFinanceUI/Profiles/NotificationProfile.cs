@@ -12,6 +12,7 @@ namespace PersonalFinance.UI.Profiles
                 .ReverseMap();
 
             CreateMap<AddNotificationDTO, Notification>();
+            CreateMap<UpdateNotificationDTO, Notification>();
         }
     }
 }

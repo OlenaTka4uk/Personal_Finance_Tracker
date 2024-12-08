@@ -12,6 +12,7 @@ namespace PersonalFinance.UI.Profiles
                 .ReverseMap();
 
             CreateMap<AddBudgetDTO, Budget>();
+            CreateMap<UpdateBudgetDTO, Budget>();
         }
     }
 }

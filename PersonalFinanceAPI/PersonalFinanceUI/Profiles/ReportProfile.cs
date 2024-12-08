@@ -12,6 +12,7 @@ namespace PersonalFinance.UI.Profiles
                 .ReverseMap();
 
             CreateMap<AddReportDTO, Report>();
+            CreateMap<UpdateReportDTO, Report>();
         }
     }
 }
